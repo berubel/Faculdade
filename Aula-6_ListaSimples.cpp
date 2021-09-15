@@ -1,6 +1,4 @@
 #include<stdio.h>
-#include<iostream>
-#include<math.h>
 #include<locale.h>
 #include<stdlib.h>
 
@@ -199,3 +197,4 @@ void getProduct(list * list, int index){
 	
 	
 }
+
