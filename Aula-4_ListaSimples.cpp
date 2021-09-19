@@ -61,13 +61,13 @@ int getSize(lista* lista);
 void getConta(lista * lista, int index);
 
 //Obter dados da conta
-void dadosConta(int *dia, int *mes, int *ano, double *valor, bool situacao);
+void dadosConta(int *dia, int *mes, int *ano, double *valor, int *situacao);
 
 int main (){
 
     setlocale(LC_ALL, "Portuguese"); 
     
-    int op, opc, op1;
+    int op, opc;
     int dia, mes, ano;
     double valor;
     bool situacao;
@@ -94,54 +94,28 @@ int main (){
     	switch(op){
 		
 			case 1:
-			
-				printf("\n\nInsira a data de vencimento: ");
-				printf("\n\nDia: ");
-				scanf("%i", &dia);
-    			printf("\nMês: ");
-				scanf("%i", &mes);
-				printf("\nAno: ");
-				scanf("%i", &ano);
-				printf("\nInsira o valor da conta: R$ ");
-				scanf("%d", &valor);
-				printf("\nInsira a situção da conta: ");
-				printf("\n(1) - PAGA");
-				printf("\n(2) - NÃO PAGA");
-				printf("\nOPÇÃO: ");
-				scanf("%i", &opc);
-			
+		
+				dadosConta(&dia, &mes, &ano, &valor, &opc);
+				
 				if (opc == 1){
 					situacao = true;
 				}else
-			      	situacao = false;
-			
+			      situacao = false;
+			      
 				inserirNoInicio(dia, mes, ano, valor, situacao, listaDeContas);	
 			
 			
 			break;
 			
 			case 2:
-				
-				printf("\n\nInsira a data de vencimento: ");
-				printf("\n\nDia: ");
-				scanf("%i", &dia);
-    			printf("\nMês: ");
-				scanf("%i", &mes);
-				printf("\nAno: ");
-				scanf("%i", &ano);
-				printf("\nInsira o valor da conta: R$ ");
-				scanf("%d", &valor);
-				printf("\nInsira a situção da conta: ");
-				printf("\n(1) - PAGA");
-				printf("\n(2) - NÃO PAGA");
-				printf("\nOPÇÃO: ");
-				scanf("%i", &opc);
+			
+				dadosConta(&dia, &mes, &ano, &valor, &opc);
 			
 				if (opc == 1){
 					situacao = true;
 				}else
-			      	situacao = false;
-			
+			      situacao = false;
+			      
 				inserirNoInicio(dia, mes, ano, valor, situacao, listaDeContas);	
 				
 				
@@ -325,8 +299,7 @@ bool verifyEmptyList(lista *lista){
 	
 	if (lista->first == NULL){
     	printf("\nLista Vazia\n\n");
-	}else
-		printf("\nExistem elementos na lista\n\n");
+	}
 		
 	return lista->first==NULL;
 }
@@ -343,7 +316,7 @@ void printLista(lista *lista){
 	int i = 1;
 	while (atual != NULL){
 		    printf("CONTA %i", i);
-			printf("\nDia: %i \nMês: %i \nAno: %i \nValor: %d \nSituação: %s\n\n", atual->dia, atual->mes, atual->ano, atual->valor, atual->situacao?"true":"false");
+			printf("\nDia: %i \nMês: %i \nAno: %i \nValor: R$ %d \nSituação: %s\n\n", atual->dia, atual->mes, atual->ano, atual->valor, atual->situacao?"true":"false");
 		atual = atual->next; //atual passa a receber o valor do proximo produto da lista até que a mesma acabe
 		i++;
 	}
@@ -353,7 +326,7 @@ void printLista(lista *lista){
 
 void printConta(conta *conta){
 	
-	printf("\nDia: %i \nMês: %i \nAno: %i \nValor: %d \nSituação: %s\n", conta->dia, conta->mes, conta->ano, conta->valor, conta->situacao?"true":"false");
+	printf("\nDia: %i \nMês: %i \nAno: %i \nValor: R$ %d \nSituação: %s\n", conta->dia, conta->mes, conta->ano, conta->valor, conta->situacao?"true":"false");
 	
 }
 
@@ -384,28 +357,30 @@ void  getConta(lista * lista, int index){
 	}
 }
 
-void dadosConta(int *dia, int *mes, int *ano, double *valor, bool situacao){
+void dadosConta(int *dia, int *mes, int *ano, double *valor, int *situacao){
+	
 			int opc;
+			int auxDia, auxMes, auxAno;
+			double auxValor;
 	
 			printf("\n\nInsira a data de vencimento: ");
-			printf("\nDia: ");
-			scanf("%i", &dia);
+			printf("\n\nDia: ");
+			scanf("%i", &auxDia);
+			(*dia) = auxDia;
     		printf("\nMês: ");
-			scanf("%i", &mes);
+			scanf("%i", &auxMes);
+			(*mes) = auxMes;
 			printf("\nAno: ");
-			scanf("%i", &ano);
-			printf("\nInsira o valor da conta: ");
-			scanf("%d", &valor);
+			scanf("%i", &auxAno);
+			(*ano) = auxAno;
+			printf("\nInsira o valor da conta: R$ ");
+			scanf("%d", &auxValor);
+			(*valor) = auxValor;
 			printf("\nInsira a situção da conta: ");
 			printf("\n(1) - PAGA");
 			printf("\n(2) - NÃO PAGA");
 			printf("\nOPÇÃO: ");
 			scanf("%i", &opc);
-			
-			if (opc == 1){
-				situacao = true;
-			}else
-			      situacao = false;
-			
+			(*situacao) = opc;			
 	
 }
