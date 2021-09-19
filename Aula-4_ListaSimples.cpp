@@ -49,7 +49,7 @@ void removerDoFinal(lista *lista);
 void removerDoMeio(lista *lista, int posicao);
 
 //Imprimir lista
-void printList(lista *lista);
+void printLista(lista *lista);
 
 //Imprimir conta
 void printConta(conta *conta);
@@ -67,61 +67,130 @@ int main (){
 
     setlocale(LC_ALL, "Portuguese"); 
     
-    int op, opc;
+    int op, opc, op1;
     int dia, mes, ano;
     double valor;
     bool situacao;
     
    lista  *listaDeContas = createNewLista();
     
-    printf("LISTA DE CONTAS");
-    printf("\n\nMenu:");
-    printf("\n\n(1) - Inserir nova conta");
-    printf("\n(2) - Inserir nova conta no início da lista");
-    printf("\n(3) - Inserir nova conta no meio da lista");
-    printf("\n(4) - Inserir nova conta no final da lista");
-    printf("\n(5) - Remover conta do início da lista");
-    printf("\n(6) - Remover conta do meio da lista");
-    printf("\n(7) - Remover conta do final da lista");
-    printf("\n(8) - Obter uma conta da lista");
-    printf("\n(9) - Imprimir lista\n\n");
-    printf("OPÇÃO: ");
-    scanf("%i",&op);
+    do {
+    	
+    	printf("LISTA DE CONTAS");
+   	 	printf("\n\nMenu:");
+    	printf("\n\n(1) - Inserir nova conta");
+    	printf("\n(2) - Inserir nova conta no início da lista");
+    	printf("\n(3) - Inserir nova conta no meio da lista");
+    	printf("\n(4) - Inserir nova conta no final da lista");
+    	printf("\n(5) - Remover conta do início da lista");
+    	printf("\n(6) - Remover conta do meio da lista");
+    	printf("\n(7) - Remover conta do final da lista");
+    	printf("\n(8) - Obter uma conta da lista");
+    	printf("\n(9) - Imprimir lista\n\n");
+    	printf("OPÇÃO: ");
+    	scanf("%i",&op);
     
     
-    switch(op){
+    	switch(op){
 		
-		case 1:
+			case 1:
 			
-			printf("\n\nInsira a data de vencimento: ");
-			printf("\n\nDia: ");
-			scanf("%i", &dia);
-    		printf("\nMês: ");
-			scanf("%i", &mes);
-			printf("\nAno: ");
-			scanf("%i", &ano);
-			printf("\nInsira o valor da conta: ");
-			scanf("%d", &valor);
-			printf("\nInsira a situção da conta: ");
-			printf("\n(1) - PAGA");
-			printf("\n(2) - NÃO PAGA");
-			printf("\nOPÇÃO: ");
-			scanf("%i", &opc);
+				printf("\n\nInsira a data de vencimento: ");
+				printf("\n\nDia: ");
+				scanf("%i", &dia);
+    			printf("\nMês: ");
+				scanf("%i", &mes);
+				printf("\nAno: ");
+				scanf("%i", &ano);
+				printf("\nInsira o valor da conta: R$ ");
+				scanf("%d", &valor);
+				printf("\nInsira a situção da conta: ");
+				printf("\n(1) - PAGA");
+				printf("\n(2) - NÃO PAGA");
+				printf("\nOPÇÃO: ");
+				scanf("%i", &opc);
 			
-			if (opc == 1){
-				situacao = true;
-			}else
-			      situacao = false;
+				if (opc == 1){
+					situacao = true;
+				}else
+			      	situacao = false;
 			
-			inserirNoInicio(dia, mes, ano, valor, situacao, listaDeContas);	
+				inserirNoInicio(dia, mes, ano, valor, situacao, listaDeContas);	
 			
 			
-		break;
+			break;
+			
+			case 2:
+				
+				printf("\n\nInsira a data de vencimento: ");
+				printf("\n\nDia: ");
+				scanf("%i", &dia);
+    			printf("\nMês: ");
+				scanf("%i", &mes);
+				printf("\nAno: ");
+				scanf("%i", &ano);
+				printf("\nInsira o valor da conta: R$ ");
+				scanf("%d", &valor);
+				printf("\nInsira a situção da conta: ");
+				printf("\n(1) - PAGA");
+				printf("\n(2) - NÃO PAGA");
+				printf("\nOPÇÃO: ");
+				scanf("%i", &opc);
+			
+				if (opc == 1){
+					situacao = true;
+				}else
+			      	situacao = false;
+			
+				inserirNoInicio(dia, mes, ano, valor, situacao, listaDeContas);	
+				
+				
+			break;
+			
+			
+			case 3:
 		
+				
+			break;
+			
+			case 4:
+				
+			break;
+			
+			case 5:
+				
+			break;
+			
+			case 6:
+				
+			break;
+			
+			case 7:
+				
+			break;
+			
+			case 8:
+				
+			break;
+			
+			case 9:
+				
+				printLista(listaDeContas);
+				
+			break;
 	
-	}
-    
-    
+		}
+		printf("\n\nDeseja realizar nova operação? ");
+		printf("\n(1) - SIM");
+		printf("\n(2) - NÃO");
+		printf("\nOPÇÃO: ");
+		scanf("%i", &op);
+	
+		if (op==1){
+			system("cls");
+		}
+		
+	} while (op == 1);
     
     return 0;
 }
@@ -148,8 +217,6 @@ lista* createNewLista(){
 
 void inserirNoInicio(int dia, int mes, int ano, double valor, bool situacao, lista *lista){
 	conta *newConta = createNewConta(dia, mes, ano, valor, situacao);
-	
-	printf("\nDia: %i \nMês: %i \nAno: %i \nValor: %d \nSituação: %s\n", newConta->dia, newConta->mes, newConta->ano, newConta->valor, newConta->situacao?"true":"false");
 	
 	//Ajusta o ponteiro próximo
 	newConta->next = lista->first; //O primeiro produto passa a ser novo próximo, e o produto adicionado sobe para primeiro da lista
@@ -267,26 +334,31 @@ bool verifyEmptyList(lista *lista){
 void printLista(lista *lista){
 	
 	if (verifyEmptyList(lista)){
-    	printf("\nLista Vazia\n\n");
+		
 	}else{
 		printf("\nMINHA LISTA DE CONTAS \n\n");
 	
 	}
 	conta *atual = lista->first; // ponteiro atual do tipo produto que recebe o valor do primeiro da lista
+	int i = 1;
 	while (atual != NULL){
-		printf("\nDia: %i \nMês: %i \nAno: %i \nValor: %d \nSituação: %b", atual->dia, atual->mes, atual->ano, atual->valor, atual->situacao);
+		    printf("CONTA %i", i);
+			printf("\nDia: %i \nMês: %i \nAno: %i \nValor: %d \nSituação: %s\n\n", atual->dia, atual->mes, atual->ano, atual->valor, atual->situacao?"true":"false");
 		atual = atual->next; //atual passa a receber o valor do proximo produto da lista até que a mesma acabe
+		i++;
 	}
 	
 	
 }
 
 void printConta(conta *conta){
-	printf("\nDia: %i \nMês: %i \nAno: %i \nValor: %d \nSituação: %b", conta->dia, conta->mes, conta->ano, conta->valor, conta->situacao);
+	
+	printf("\nDia: %i \nMês: %i \nAno: %i \nValor: %d \nSituação: %s\n", conta->dia, conta->mes, conta->ano, conta->valor, conta->situacao?"true":"false");
 	
 }
 
 int getSize(lista* lista){
+	
 	return lista->size;
 }
 
