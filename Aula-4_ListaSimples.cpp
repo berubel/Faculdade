@@ -104,6 +104,8 @@ int main (){
 			      situacao = false;
 			      
 				inserirNoInicio(dia, mes, ano, valor, situacao, listaDeContas);	
+				system("cls");
+				printf("\nAdicionada com sucesso!"); 
 			
 			
 			break;
@@ -118,6 +120,8 @@ int main (){
 			      situacao = false;
 			      
 				inserirNoInicio(dia, mes, ano, valor, situacao, listaDeContas);	
+				system("cls");
+				printf("\nAdicionada com sucesso!"); 
 				
 				
 			break;
@@ -135,7 +139,9 @@ int main (){
 			    printf("\nDigite o número da posição que deseja inserir a conta: ");
 			    scanf("%i", &posicao);
 			      
-			    inserirNoMeio(dia, mes, ano, valor, situacao, listaDeContas, posicao);	
+			    inserirNoMeio(dia, mes, ano, valor, situacao, listaDeContas, posicao);
+				system("cls");	
+			    printf("\nAdicionada com sucesso!"); 
 				
 			break;
 			
@@ -148,13 +154,17 @@ int main (){
 				}else
 			      situacao = false;
 			      
-				inserirNoFinal(dia, mes, ano, valor, situacao, listaDeContas);	
+				inserirNoFinal(dia, mes, ano, valor, situacao, listaDeContas);
+				system("cls");
+				printf("\nAdicionada com sucesso!"); 	
 				
 			break;
 			
 			case 5:
 			      
-			   	removerDoInicio(listaDeContas);   
+			   	removerDoInicio(listaDeContas);  
+			   	system("cls");
+				printf("\nRemovida com sucesso!"); 
 				
 			break;
 			
@@ -175,7 +185,8 @@ int main (){
 			break;
 			
 			case 9:
-				
+			
+				system("cls");
 				printLista(listaDeContas);
 				
 			break;
@@ -287,7 +298,7 @@ void removerDoInicio(lista *lista){
 		free(first);
 	
 		//Diminuir tamanho da lista
-		lista->size--;
+		lista->size = lista->size --;
     }
 }
 
@@ -366,22 +377,35 @@ int getSize(lista* lista){
 
 void getConta(lista *lista, int index){
 	
+	conta *atual = lista->first;
+	int i= 1;
+	
 	if(verifyEmptyList(lista)){
-		printf("\nLista não contém contas \n");
-	}else if(index <=0 || index >= getSize(lista)){
-		printf("\nIndice %d informado fora dos limites!! \n", index);
-	}
-	else{
-		conta *conta = lista->first;
-		int i = 1;
+			
+    }else{
+	
+		while (atual != NULL){
+			atual = atual->next;
+			i++;	
+		}
+	
+		if (index>=i || index<=0){
+			system("cls");
+			printf("\nIndice %d informado fora dos limites!! \n", index);
+		}
+	
+	}if (index < i && index !=0){
+	
+		i = 1;
+		atual = lista->first;
 		
-		while (i<index && conta->next){
-			conta = conta->next;
+		while (i<index && atual != NULL){
+			atual = atual->next;
 			i++;
 		}
 		
 		system("cls");
-		printConta(conta, index);
+		printConta(atual, index);
 	}
 }
 
