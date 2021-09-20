@@ -69,6 +69,7 @@ int main (){
     
     int op, opc;
     int dia, mes, ano;
+    int posicao;
     double valor;
     bool situacao;
     
@@ -123,11 +124,31 @@ int main (){
 			
 			
 			case 3:
-		
+				
+				dadosConta(&dia, &mes, &ano, &valor, &opc);
+			
+				if (opc == 1){
+					situacao = true;
+				}else
+			      situacao = false;
+			    
+			    printf("\nDigite o número da posição que deseja inserir a conta: ");
+			    scanf("%i", posicao);
+			      
+			    inserirNoMeio(dia, mes, ano, valor, situacao, listaDeContas, posicao);	
 				
 			break;
 			
 			case 4:
+				
+				dadosConta(&dia, &mes, &ano, &valor, &opc);
+			
+				if (opc == 1){
+					situacao = true;
+				}else
+			      situacao = false;
+			      
+				inserirNoFinal(dia, mes, ano, valor, situacao, listaDeContas);	
 				
 			break;
 			
@@ -215,29 +236,28 @@ void inserirNoFinal(int dia, int mes, int ano, double valor, bool situacao, list
 
 void inserirNoMeio(int dia, int mes, int ano, double valor, bool situacao, lista *lista, int posicao){
 	
-	if(verifyEmptyList(lista) || posicao == 1){
+	if(verifyEmptyList(lista) || posicao == 0){
 		
 		inserirNoInicio(dia, mes, ano, valor, situacao, lista);
 		
-	} else {
+	}else{
 			
 		conta *newConta = createNewConta(dia, mes, ano, valor, situacao);
-		conta *atual = lista->first;
-	    int posicaoAtual = 1;
+		conta *atual = lista->first;	
+	
+	    int posicaoAtual = 0;
+	    printf("Posição: %d\n", posicaoAtual);
 	    
-	    while (atual->next != NULL){ //PERCORRE A LISTA, Procurando o próximo 
+	    while (posicaoAtual < posicao && atual->next != NULL){ //PERCORRE A LISTA, Procurando o próximo 
            		
            		printf("Posição: %d\n", posicaoAtual);
-           		
-           		if(posicaoAtual == posicao -1){
-           			newConta->next = atual->next;
-           			atual->next = newConta;
            			
-				}
                 atual = atual->next;
            		posicaoAtual++;
-		}	
-		
+		}
+		newConta->next = atual->next;
+		atual->next = newConta;
+        	
 		if (posicao > posicaoAtual){
 			inserirNoFinal(dia, mes, ano, valor, situacao, lista);
 		}
