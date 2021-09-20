@@ -339,7 +339,7 @@ void printLista(lista *lista){
 	int i = 1;
 	while (atual != NULL){
 		    printf("CONTA %i", i);
-			printf("\nVencimento: %i/%i/%i \nValor: R$ %d \nSituação: %s\n\n", atual->dia, atual->mes, atual->ano, atual->valor, atual->situacao?"true":"false");
+			printf("\nVencimento: %i/%i/%i \nValor: R$ %d \nSituação: %s\n\n", atual->dia, atual->mes, atual->ano, atual->valor, atual->situacao?"Paga":"Não paga");
 		atual = atual->next; //atual passa a receber o valor do proximo produto da lista até que a mesma acabe
 		i++;
 	}
@@ -350,7 +350,7 @@ void printLista(lista *lista){
 void printConta(conta *conta, int index){
 	
 	printf("CONTA %i", index);
-	printf("\nVencimento: %i/%i/%i \nValor: R$ %d \nSituação: %s\n", conta->dia, conta->mes, conta->ano, conta->valor, conta->situacao?"true":"false");
+	printf("\nVencimento: %i/%i/%i \nValor: R$ %d \nSituação: %s\n", conta->dia, conta->mes, conta->ano, conta->valor, conta->situacao?"Paga":"Não paga");
 	
 }
 
