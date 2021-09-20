@@ -133,7 +133,7 @@ int main (){
 			      situacao = false;
 			    
 			    printf("\nDigite o número da posição que deseja inserir a conta: ");
-			    scanf("%i", posicao);
+			    scanf("%i", &posicao);
 			      
 			    inserirNoMeio(dia, mes, ano, valor, situacao, listaDeContas, posicao);	
 				
@@ -165,6 +165,10 @@ int main (){
 			break;
 			
 			case 8:
+				
+				printf("\nDigite o número da posição da conta que deseja visualizar: ");
+			    scanf("%i", &posicao);
+				getConta(listaDeContas, posicao);
 				
 			break;
 			
@@ -236,6 +240,8 @@ void inserirNoFinal(int dia, int mes, int ano, double valor, bool situacao, list
 
 void inserirNoMeio(int dia, int mes, int ano, double valor, bool situacao, lista *lista, int posicao){
 	
+	posicao = posicao - 1;
+	
 	if(verifyEmptyList(lista) || posicao == 0){
 		
 		inserirNoInicio(dia, mes, ano, valor, situacao, lista);
@@ -245,13 +251,10 @@ void inserirNoMeio(int dia, int mes, int ano, double valor, bool situacao, lista
 		conta *newConta = createNewConta(dia, mes, ano, valor, situacao);
 		conta *atual = lista->first;	
 	
-	    int posicaoAtual = 0;
-	    printf("Posição: %d\n", posicaoAtual);
+	    int posicaoAtual = 1;
 	    
 	    while (posicaoAtual < posicao && atual->next != NULL){ //PERCORRE A LISTA, Procurando o próximo 
-           		
-           		printf("Posição: %d\n", posicaoAtual);
-           			
+           				
                 atual = atual->next;
            		posicaoAtual++;
 		}
@@ -356,7 +359,9 @@ int getSize(lista* lista){
 }
 
 
-void  getConta(lista * lista, int index){
+void getConta(lista *lista, int index){
+	
+	printf("funciona");
 	
 	if(verifyEmptyList(lista)){
 		printf("\nLista não contém contas \n");
