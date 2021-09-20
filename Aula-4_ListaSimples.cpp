@@ -153,6 +153,8 @@ int main (){
 			break;
 			
 			case 5:
+			      
+			   	removerDoInicio(listaDeContas);   
 				
 			break;
 			
@@ -339,7 +341,7 @@ void printLista(lista *lista){
 	int i = 1;
 	while (atual != NULL){
 		    printf("CONTA %i", i);
-			printf("\nVencimento: %i/%i/%i \nValor: R$ %d \nSituação: %s\n\n", atual->dia, atual->mes, atual->ano, atual->valor, atual->situacao?"Paga":"Não paga");
+			printf("\nVencimento: %i/%i/%i \nValor: R$ %d \nSituação: %s\n\n", atual->dia, atual->mes, atual->ano, atual->valor, atual->situacao?"Pago":"Não pago");
 		atual = atual->next; //atual passa a receber o valor do proximo produto da lista até que a mesma acabe
 		i++;
 	}
