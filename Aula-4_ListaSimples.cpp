@@ -1,5 +1,3 @@
-#include<stdio.h>
-#include<iostream>
 #include<math.h>
 #include<locale.h>
 #include<stdlib.h>
@@ -104,8 +102,6 @@ int main (){
 			      situacao = false;
 			      
 				inserirNoInicio(dia, mes, ano, valor, situacao, listaDeContas);	
-				system("cls");
-				printf("\nAdicionada com sucesso!"); 
 			
 			
 			break;
@@ -120,8 +116,6 @@ int main (){
 			      situacao = false;
 			      
 				inserirNoInicio(dia, mes, ano, valor, situacao, listaDeContas);	
-				system("cls");
-				printf("\nAdicionada com sucesso!"); 
 				
 				
 			break;
@@ -140,8 +134,6 @@ int main (){
 			    scanf("%i", &posicao);
 			      
 			    inserirNoMeio(dia, mes, ano, valor, situacao, listaDeContas, posicao);
-				system("cls");	
-			    printf("\nAdicionada com sucesso!"); 
 				
 			break;
 			
@@ -154,17 +146,13 @@ int main (){
 				}else
 			      situacao = false;
 			      
-				inserirNoFinal(dia, mes, ano, valor, situacao, listaDeContas);
-				system("cls");
-				printf("\nAdicionada com sucesso!"); 	
+				inserirNoFinal(dia, mes, ano, valor, situacao, listaDeContas);	
 				
 			break;
 			
 			case 5:
 			      
 			   	removerDoInicio(listaDeContas);  
-			   	system("cls");
-				printf("\nRemovida com sucesso!"); 
 				
 			break;
 			
@@ -173,6 +161,8 @@ int main (){
 			break;
 			
 			case 7:
+				
+				removerDoFinal(listaDeContas);  
 				
 			break;
 			
@@ -234,6 +224,11 @@ void inserirNoInicio(int dia, int mes, int ano, double valor, bool situacao, lis
 	newConta->next = lista->first; //O primeiro produto passa a ser novo próximo, e o produto adicionado sobe para primeiro da lista
 	//Alterar indicador de inicio da lista
 	lista->first = newConta; // o primeiro da lista passa a ser o adicionado mais recentemente
+	
+	lista->size++;
+	
+	system("cls");
+	printf("\nAdicionada com sucesso!"); 
 }
 void inserirNoFinal(int dia, int mes, int ano, double valor, bool situacao, lista *lista){ 
 	
@@ -248,6 +243,11 @@ void inserirNoFinal(int dia, int mes, int ano, double valor, bool situacao, list
            		atual = atual->next; 
 	   	}
 	    atual->next = newConta;
+	    
+	    lista->size++;
+	    
+	    system("cls");
+		printf("\nAdicionada com sucesso!"); 
 	}
 }
 
@@ -273,16 +273,22 @@ void inserirNoMeio(int dia, int mes, int ano, double valor, bool situacao, lista
 		}
 		newConta->next = atual->next;
 		atual->next = newConta;
+		
+		system("cls");
+		printf("\nAdicionada com sucesso!"); 
         	
 		if (posicao > posicaoAtual){
 			inserirNoFinal(dia, mes, ano, valor, situacao, lista);
+			
 		}
 	}
+	
+	lista->size++;
 }
 void removerDoInicio(lista *lista){
 	
 	if (verifyEmptyList(lista)){
-		printf("Lista vazia. Impossível  realizar exclusão!\n");
+		printf("Impossível  realizar exclusão!\n");
 	}else{
 		
 		//Obter primeiro item
@@ -299,36 +305,43 @@ void removerDoInicio(lista *lista){
 	
 		//Diminuir tamanho da lista
 		lista->size = lista->size --;
+		
+		system("cls");
+		printf("\nRemovida com sucesso!"); 
     }
 }
 
 void removerDoFinal(lista *lista){
 	
-	if (verifyEmptyList(lista)){
-		printf("Lista vazia. Impossível  realizar exclusão!\n");
-	}else{
+	if (verifyEmptyList(lista)){	
+		printf("Impossível  realizar exclusão!\n");		
+    }    
 		//Obter primeiro item da lista
 		conta *atual = lista->first;
 		conta *anterior = lista->first;
 		
+		//Exclusão se houver apenas um produto na lista
+		if (atual->next == NULL){
+			removerDoInicio(lista);
+		}
+	
 		//Percorrer toda lista
 		while(atual->next != NULL){ //enquanto não chegar ao final da lista
 			anterior = atual; //anterior passa a receber valor do atual
 			atual = atual->next; // atual recebe valor do proximo
-		}
-		//printProduct(atual); ULTIMO PRODUTO
-		//printProduct(anterior); PENULTIMO PRODUTO
-		
+		}	
 		//Exclusão
-		if (anterior->next = NULL){ //se houver apenas um produto na lista
-			lista->first = NULL;
-		}
-		anterior->next = NULL;//proximo produto do penultimo, significa que chegou ao ultimo da lista, portanto remove-o e libera a memória
-		free(atual);
 		
+		//Ajusta o ponteiro proximo
+		anterior->next = NULL;//proximo produto do penultimo, significa que chegou ao ultimo da lista, portanto remove-o e libera a memória. 
+		free(atual);
+			
+			
 		//Diminuir tamanho da lista
-		lista->size--;
-    }
+		lista->size --;
+		
+		system("cls");
+		printf("\nRemovida com sucesso!"); 
 }
 
 bool verifyEmptyList(lista *lista){
@@ -351,8 +364,7 @@ void printLista(lista *lista){
 	conta *atual = lista->first; // ponteiro atual do tipo produto que recebe o valor do primeiro da lista
 	int i = 1;
 	while (atual != NULL){
-		    printf("CONTA %i", i);
-			printf("\nVencimento: %i/%i/%i \nValor: R$ %d \nSituação: %s\n\n", atual->dia, atual->mes, atual->ano, atual->valor, atual->situacao?"Pago":"Não pago");
+		printConta(atual, i)  ;
 		atual = atual->next; //atual passa a receber o valor do proximo produto da lista até que a mesma acabe
 		i++;
 	}
@@ -363,7 +375,7 @@ void printLista(lista *lista){
 void printConta(conta *conta, int index){
 	
 	printf("CONTA %i", index);
-	printf("\nVencimento: %i/%i/%i \nValor: R$ %d \nSituação: %s\n", conta->dia, conta->mes, conta->ano, conta->valor, conta->situacao?"Paga":"Não paga");
+	printf("\nVencimento: %i/%i/%i \nValor: R$ %d \nSituação: %s\n\n", conta->dia, conta->mes, conta->ano, conta->valor, conta->situacao?"Paga":"Não paga");
 	
 }
 
