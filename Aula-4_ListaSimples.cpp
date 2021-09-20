@@ -52,7 +52,7 @@ void removerDoMeio(lista *lista, int posicao);
 void printLista(lista *lista);
 
 //Imprimir conta
-void printConta(conta *conta);
+void printConta(conta *conta, int index);
 
 //Obter tamanho da lista
 int getSize(lista* lista);
@@ -347,21 +347,22 @@ void printLista(lista *lista){
 	
 }
 
-void printConta(conta *conta){
+void printConta(conta *conta, int index){
 	
+	printf("CONTA %i", index);
 	printf("\nDia: %i \nMês: %i \nAno: %i \nValor: R$ %d \nSituação: %s\n", conta->dia, conta->mes, conta->ano, conta->valor, conta->situacao?"true":"false");
 	
 }
 
 int getSize(lista* lista){
 	
+	lista->size = sizeof(lista);
+	
 	return lista->size;
 }
 
 
 void getConta(lista *lista, int index){
-	
-	printf("funciona");
 	
 	if(verifyEmptyList(lista)){
 		printf("\nLista não contém contas \n");
@@ -377,8 +378,8 @@ void getConta(lista *lista, int index){
 			i++;
 		}
 		
-		
-		printConta(conta);
+		system("cls");
+		printConta(conta, index);
 	}
 }
 
