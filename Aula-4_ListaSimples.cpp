@@ -375,7 +375,6 @@ void removerDoMeio(lista *lista, int posicao){
 	}else{
 		
 		int posicaoAtual = 1;
-		int i = 1;
 		
 		conta *atual = lista->first;
 		conta *anterior = lista->first;	
@@ -391,11 +390,10 @@ void removerDoMeio(lista *lista, int posicao){
            		
 					anterior = atual;		
                 	atual = atual->next;
-           		    posicaoAtual++;
-           		    i++;
+           		    posicaoAtual++;     	
 			}
 
-			if (posicao > i || posicao < 0){
+			if (posicao > posicaoAtual || posicao <= 0){
 					
 				printf("\nPosição %d informada fora dos limites da lista!! \n", posicao);
 				printf("Impossível realizar exclusão!\n");	 
@@ -413,7 +411,7 @@ void removerDoMeio(lista *lista, int posicao){
 		
    				lista->size --;
 		
-				//system("cls");
+				system("cls");
 				printf("\nRemovida com sucesso!"); 	
 					
 			}				
