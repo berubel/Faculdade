@@ -1,4 +1,6 @@
-Esse projeto contém códigos desenvolvidos para a disciplina de Estrutura de Dados.
+ESTRUTURA DE DADOS
+
+Esse repositório contém códigos desenvolvidos para a disciplina de Estrutura de Dados.
 
 Aluna: Gabriele Cardoso das Virgens
 
