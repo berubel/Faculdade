@@ -160,6 +160,10 @@ int main (){
 			
 			case 6:
 				
+				printf("\nDigite o número da posição da conta que deseja remover: ");
+			    scanf("%i", &posicao);
+				removerDoMeio(listaDeContas, posicao); 
+				
 			break;
 			
 			case 7:
@@ -200,6 +204,7 @@ int main (){
 }
 
 conta* createNewConta (int dia, int mes, int ano, double valor, bool situacao){
+	
 	conta *newConta =(conta*) malloc(sizeof(conta)); //É preciso fazer casting para passar o ponteiro de produto para o ponteiro void do malloc
     
     newConta->dia = dia;
@@ -213,6 +218,7 @@ conta* createNewConta (int dia, int mes, int ano, double valor, bool situacao){
 }
 
 lista* createNewLista(){
+	
 		lista *newLista = (lista *)malloc(sizeof(lista)); //Ponteiro do tipo lista
 		
 		newLista->first = NULL;
@@ -220,6 +226,7 @@ lista* createNewLista(){
 }
 
 void inserirNoInicio(int dia, int mes, int ano, double valor, bool situacao, lista *lista){
+	
 	conta *newConta = createNewConta(dia, mes, ano, valor, situacao);
 	
 	//Ajusta o ponteiro próximo
@@ -232,6 +239,7 @@ void inserirNoInicio(int dia, int mes, int ano, double valor, bool situacao, lis
 	system("cls");
 	printf("\nAdicionada com sucesso!"); 
 }
+
 void inserirNoFinal(int dia, int mes, int ano, double valor, bool situacao, lista *lista){ 
 	
 	conta *newConta = createNewConta(dia, mes, ano, valor, situacao);
@@ -239,9 +247,13 @@ void inserirNoFinal(int dia, int mes, int ano, double valor, bool situacao, list
 	conta *atual = lista->first;
 	
     if(verifyEmptyList(lista)){
+    	
      	lista->first = newConta;
+     	
 	}else{
+		
 	    while (atual->next != NULL){ //PERCORRE A LISTA, Procurando o próximo
+	    
            		atual = atual->next; 
 	   	}
 	    atual->next = newConta;
@@ -276,21 +288,24 @@ void inserirNoMeio(int dia, int mes, int ano, double valor, bool situacao, lista
 		newConta->next = atual->next;
 		atual->next = newConta;
 		
+		lista->size++;
+		
 		system("cls");
 		printf("\nAdicionada com sucesso!"); 
         	
 		if (posicao > posicaoAtual){
+			
 			inserirNoFinal(dia, mes, ano, valor, situacao, lista);
 			
 		}
 	}
-	
-	lista->size++;
 }
 void removerDoInicio(lista *lista){
 	
 	if (verifyEmptyList(lista)){
-		printf("Impossível  realizar exclusão!\n");
+		
+		printf("Impossível realizar exclusão!\n");
+		
 	}else{
 		
 		//Obter primeiro item
@@ -316,9 +331,12 @@ void removerDoInicio(lista *lista){
 void removerDoFinal(lista *lista){
 	
 	if (verifyEmptyList(lista)){	
-		printf("Impossível  realizar exclusão!\n");		
-    }    
-		//Obter primeiro item da lista
+	
+		printf("Impossível realizar exclusão!\n");	
+			
+    }else{
+    	
+    	//Obter primeiro item da lista
 		conta *atual = lista->first;
 		conta *anterior = lista->first;
 		
@@ -337,18 +355,77 @@ void removerDoFinal(lista *lista){
 		//Ajusta o ponteiro proximo
 		anterior->next = NULL;//proximo produto do penultimo, significa que chegou ao ultimo da lista, portanto remove-o e libera a memória. 
 		free(atual);
-			
-			
+					
 		//Diminuir tamanho da lista
 		lista->size --;
 		
 		system("cls");
 		printf("\nRemovida com sucesso!"); 
+	}  		
+}
+
+void removerDoMeio(lista *lista, int posicao){
+	
+	posicao = posicao;
+	
+	if(verifyEmptyList(lista)){
+		
+		printf("Impossível realizar exclusão!\n");	
+		
+	}else{
+		
+		int posicaoAtual = 1;
+		int i = 1;
+		
+		conta *atual = lista->first;
+		conta *anterior = lista->first;	
+		
+			
+		if (posicao == 1){
+			
+			removerDoInicio(lista);
+			
+		}else{
+			
+			while (posicaoAtual < posicao || posicaoAtual == 1 && posicao != 1 && atual->next != NULL){ //PERCORRE A LISTA, Procurando o próximo 
+           		
+					anterior = atual;		
+                	atual = atual->next;
+           		    posicaoAtual++;
+           		    i++;
+			}
+
+			if (posicao > i || posicao < 0){
+					
+				printf("\nPosição %d informada fora dos limites da lista!! \n", posicao);
+				printf("Impossível realizar exclusão!\n");	 
+					
+			} else if (atual->next == NULL){
+					
+						removerDoFinal(lista);
+							
+			}else{
+					
+				anterior->next = atual->next;
+				atual = NULL;
+		
+				free(atual);
+		
+   				lista->size --;
+		
+				//system("cls");
+				printf("\nRemovida com sucesso!"); 	
+					
+			}				
+		}
+	}	   
 }
 
 bool verifyEmptyList(lista *lista){
 	
 	if (lista->first == NULL){
+		
+		system("cls");
     	printf("\nLista Vazia\n\n");
 	}
 		
@@ -360,12 +437,15 @@ void printLista(lista *lista){
 	if (verifyEmptyList(lista)){
 		
 	}else{
+		
 		printf("\nMINHA LISTA DE CONTAS \n\n");
 	
 	}
 	conta *atual = lista->first; // ponteiro atual do tipo produto que recebe o valor do primeiro da lista
 	int i = 1;
+	
 	while (atual != NULL){
+		
 		printConta(atual, i)  ;
 		atual = atual->next; //atual passa a receber o valor do proximo produto da lista até que a mesma acabe
 		i++;
@@ -399,11 +479,13 @@ void getConta(lista *lista, int index){
     }else{
 	
 		while (atual != NULL){
+			
 			atual = atual->next;
 			i++;	
 		}
 	
-		if (index>=i || index<=0){
+		if (index>=i || index<=0){	
+			
 			system("cls");
 			printf("\nIndice %d informado fora dos limites!! \n", index);
 		}
@@ -414,6 +496,7 @@ void getConta(lista *lista, int index){
 		atual = lista->first;
 		
 		while (i<index && atual != NULL){
+					
 			atual = atual->next;
 			i++;
 		}
@@ -425,28 +508,27 @@ void getConta(lista *lista, int index){
 
 void dadosConta(int *dia, int *mes, int *ano, double *valor, int *situacao){
 	
-			int opc;
-			int auxDia, auxMes, auxAno;
-			double auxValor;
+		int opc;
+		int auxDia, auxMes, auxAno;
+		double auxValor;
 	
-			printf("\n\nInsira a data de vencimento: ");
-			printf("\n\nDia: ");
-			scanf("%i", &auxDia);
-			(*dia) = auxDia;
-    		printf("\nMês: ");
-			scanf("%i", &auxMes);
-			(*mes) = auxMes;
-			printf("\nAno: ");
-			scanf("%i", &auxAno);
-			(*ano) = auxAno;
-			printf("\nInsira o valor da conta: R$ ");
-			scanf("%d", &auxValor);
-			(*valor) = auxValor;
-			printf("\nInsira a situção da conta: ");
-			printf("\n(1) - PAGA");
-			printf("\n(2) - NÃO PAGA");
-			printf("\nOPÇÃO: ");
-			scanf("%i", &opc);
-			(*situacao) = opc;			
-	
+		printf("\n\nInsira a data de vencimento: ");
+		printf("\n\nDia: ");
+		scanf("%i", &auxDia);
+		(*dia) = auxDia;
+    	printf("\nMês: ");
+		scanf("%i", &auxMes);
+		(*mes) = auxMes;
+		printf("\nAno: ");
+		scanf("%i", &auxAno);
+		(*ano) = auxAno;
+		printf("\nInsira o valor da conta: R$ ");
+		scanf("%d", &auxValor);
+		(*valor) = auxValor;
+		printf("\nInsira a situção da conta: ");
+		printf("\n(1) - PAGA");
+		printf("\n(2) - NÃO PAGA");
+		printf("\nOPÇÃO: ");
+		scanf("%i", &opc);
+		(*situacao) = opc;				
 }
