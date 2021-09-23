@@ -1,6 +1,6 @@
 # Engenharia de Software
 
-    Repositório para códigos e projetos desenvolvidos para as disciplinas cursadas durante o curso.
+    Repositório para códigos e projetos desenvolvidos para as disciplinas cursadas do curso.
 
 * Aluna: Gabriele Cardoso das Virgens
 
