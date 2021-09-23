@@ -347,9 +347,9 @@ void removerDoFinal(lista *lista){
 	
 		printf("Impossível realizar exclusão!\n");	
 			
-    }else{
+    	}else{
     	
-    	//Obter primeiro item da lista
+    		//Obter primeiro item da lista
 		conta *atual = lista->first;
 		conta *anterior = lista->first;
 		
