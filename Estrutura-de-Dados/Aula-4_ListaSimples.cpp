@@ -395,7 +395,7 @@ void removerDoMeio(lista *lista, int posicao){
 			
 		}else{
 			//Percorre a lista
-			while (posicaoAtual < posicao || posicaoAtual == 1 && atual->next != NULL){ //Até a posição informada
+			while (posicaoAtual < posicao && atual->next != NULL){ //Até a posição informada
            		
 					anterior = atual;		
                 	atual = atual->next;
@@ -404,7 +404,8 @@ void removerDoMeio(lista *lista, int posicao){
 			}
 
 			if (posicao > posicaoAtual || posicao <= 0){ // Posição inexistente
-					
+			
+				system("cls");	
 				printf("\nPosição %d informada fora dos limites da lista!! \n", posicao);
 				printf("Impossível realizar exclusão!\n");	 
 					
@@ -493,6 +494,7 @@ void getConta(lista *lista, int index){
 		while (atual != NULL){//Percorre a lista
 			
 			atual = atual->next;
+			
 			i++;	
 		}
 	
