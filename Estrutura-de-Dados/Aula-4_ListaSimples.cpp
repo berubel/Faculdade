@@ -66,7 +66,7 @@ int main (){
 
     setlocale(LC_ALL, "Portuguese"); 
     
-    int op, opc;
+    int op, opc, start;
     int dia, mes, ano;
     int posicao;
     double valor;
@@ -77,16 +77,15 @@ int main (){
     do {
     	
     	printf("LISTA DE CONTAS");
-   	printf("\n\nMenu:");
-    	printf("\n\n(1) - Inserir nova conta");
-    	printf("\n(2) - Inserir nova conta no início da lista");
-    	printf("\n(3) - Inserir nova conta no meio da lista");
-    	printf("\n(4) - Inserir nova conta no final da lista");
-    	printf("\n(5) - Remover conta do início da lista");
-    	printf("\n(6) - Remover conta do meio da lista");
-    	printf("\n(7) - Remover conta do final da lista");
-    	printf("\n(8) - Obter uma conta da lista");
-    	printf("\n(9) - Imprimir lista\n\n");
+   	 	printf("\n\nMenu:");
+    	printf("\n\n(1) - Inserir nova conta no início da lista");
+    	printf("\n(2) - Inserir nova conta no meio da lista");
+    	printf("\n(3) - Inserir nova conta no final da lista");
+    	printf("\n(4) - Remover conta do início da lista");
+    	printf("\n(5) - Remover conta do meio da lista");
+    	printf("\n(6) - Remover conta do final da lista");
+    	printf("\n(7) - Obter uma conta da lista");
+    	printf("\n(8) - Imprimir lista\n\n");
     	printf("OPÇÃO: ");
     	scanf("%i",&op);
     
@@ -94,20 +93,6 @@ int main (){
     	switch(op){
 		
 			case 1: //INSERIR CONTA NO INÍCIO
-		
-				dadosConta(&dia, &mes, &ano, &valor, &opc);
-				
-				if (opc == 1){
-					situacao = true;
-				}else
-			      situacao = false;
-			      
-				inserirNoInicio(dia, mes, ano, valor, situacao, listaDeContas);	
-			
-			
-			break;
-			
-			case 2: //INSERIR CONTA NO INÍCIO
 			
 				dadosConta(&dia, &mes, &ano, &valor, &opc);
 			
@@ -122,7 +107,7 @@ int main (){
 			break;
 			
 			
-			case 3: //INSERIR CONTA NO MEIO
+			case 2: //INSERIR CONTA NO MEIO
 				
 				dadosConta(&dia, &mes, &ano, &valor, &opc);
 			
@@ -131,14 +116,14 @@ int main (){
 				}else
 			      situacao = false;
 			    
-			    	printf("\nDigite o número da posição que deseja inserir a conta: ");
-			    	scanf("%i", &posicao);
+			    printf("\nDigite o número da posição que deseja inserir a conta: ");
+			    scanf("%i", &posicao);
 			      
-			    	inserirNoMeio(dia, mes, ano, valor, situacao, listaDeContas, posicao);
+			    inserirNoMeio(dia, mes, ano, valor, situacao, listaDeContas, posicao);
 				
 			break;
 			
-			case 4: //INSERIR CONTA NO FINAL
+			case 3: //INSERIR CONTA NO FINAL
 				
 				dadosConta(&dia, &mes, &ano, &valor, &opc);
 			
@@ -151,49 +136,62 @@ int main (){
 				
 			break;
 			
-			case 5: //REMOVER CONTA DO INÍCIO
+			case 4: //REMOVER CONTA DO INÍCIO
 			      
 			   	removerDoInicio(listaDeContas);  
 				
 			break;
 			
-			case 6: //REMOVER CONTA DO MEIO
+			case 5: //REMOVER CONTA DO MEIO
 				
 				printf("\nDigite o número da posição da conta que deseja remover: ");
-			    	scanf("%i", &posicao);
+			    scanf("%i", &posicao);
 				removerDoMeio(listaDeContas, posicao); 
 				
 			break;
 			
-			case 7: //REMOVER CONTA DO FINAL
+			case 6: //REMOVER CONTA DO FINAL
 				
 				removerDoFinal(listaDeContas);  
 				
 			break;
 			
-			case 8: //OBTER UMA CONTA
+			case 7: //OBTER UMA CONTA
 				
 				printf("\nDigite o número da posição da conta que deseja visualizar: ");
-			    	scanf("%i", &posicao);
+			    scanf("%i", &posicao);
 				getConta(listaDeContas, posicao);
 				
 			break;
 			
-			case 9: //IMPRIMIR LISTA
+			case 8: //IMPRIMIR LISTA
 			
 				system("cls");
 				printLista(listaDeContas);
 				
 			break;
-	
+			
+			default: 
+					
+				printf("\nOpção inválida!");
+			
+			
 		}
-		printf("\n\nDeseja realizar nova operação? ");
-		printf("\n(1) - SIM");
-		printf("\n(2) - NÃO");
-		printf("\nOPÇÃO: ");
-		scanf("%i", &op);
-	
-		if (op==1){
+		
+		do{
+			printf("\n\nDeseja realizar nova operação? ");
+			printf("\n(1) - SIM");
+			printf("\n(2) - NÃO");
+			printf("\nOPÇÃO: ");
+			scanf("%i", &op);
+			
+			if (op < 1|| op > 2){
+				printf("\n\nOpção inválida!");
+			}
+		
+		}while(op < 1|| op > 2);
+		
+		if (op == 1){
 			system("cls");
 		}
 		
@@ -204,7 +202,7 @@ int main (){
 
 conta* createNewConta (int dia, int mes, int ano, double valor, bool situacao){
 	
-    conta *newConta =(conta*) malloc(sizeof(conta)); 
+	conta *newConta =(conta*) malloc(sizeof(conta)); 
     
     newConta->dia = dia;
     newConta->mes = mes;
@@ -266,7 +264,7 @@ void inserirNoFinal(int dia, int mes, int ano, double valor, bool situacao, list
 	    lista->size++;
 	    
 	    system("cls");
-	    printf("\nAdicionada com sucesso!"); 
+		printf("\nAdicionada com sucesso!"); 
 	}
 }
 
@@ -347,9 +345,9 @@ void removerDoFinal(lista *lista){
 	
 		printf("Impossível realizar exclusão!\n");	
 			
-    	}else{
+    }else{
     	
-    		//Obter primeiro item da lista
+    	//Obter primeiro item da lista
 		conta *atual = lista->first;
 		conta *anterior = lista->first;
 		
@@ -399,9 +397,9 @@ void removerDoMeio(lista *lista, int posicao){
 			//Percorre a lista
 			while (posicaoAtual < posicao || posicaoAtual == 1 && atual->next != NULL){ //Até a posição informada
            		
-				anterior = atual;		
-                		atual = atual->next;
-           		        posicaoAtual++; 
+					anterior = atual;		
+                	atual = atual->next;
+           		    posicaoAtual++; 
 					       	
 			}
 
@@ -412,7 +410,7 @@ void removerDoMeio(lista *lista, int posicao){
 					
 			} else if (atual->next == NULL){ // Para remover se a posição informada for a última da lista
 					
-					removerDoFinal(lista);
+						removerDoFinal(lista);
 							
 			}else{
 				//Ajustar o ponteiro próximo	
@@ -424,7 +422,7 @@ void removerDoMeio(lista *lista, int posicao){
 		   		//Liberar a memória
 				free(atual);
 				
-		        	//Diminuir tamanho da lista
+		        //Diminuir tamanho da lista
    				lista->size --;
 		
 				system("cls");
@@ -440,7 +438,7 @@ bool verifyEmptyList(lista *lista){
 	if (lista->first == NULL){ //Sem conta na primeira posição da lista
 		
 		system("cls");
-    		printf("\nLista Vazia\n\n");
+    	printf("\nLista Vazia\n\n");
 	}
 		
 	return lista->first==NULL;
@@ -530,7 +528,7 @@ void dadosConta(int *dia, int *mes, int *ano, double *valor, int *situacao){
 	printf("\n\nDia: ");
 	scanf("%i", &auxDia);
 	(*dia) = auxDia;
-    	printf("\nMês: ");
+    printf("\nMês: ");
 	scanf("%i", &auxMes);
 	(*mes) = auxMes;
 	printf("\nAno: ");
