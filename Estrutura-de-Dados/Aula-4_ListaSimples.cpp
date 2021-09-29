@@ -272,7 +272,7 @@ void inserirNoMeio(int dia, int mes, int ano, double valor, bool situacao, lista
 	
 	posicao = posicao - 1;
 	
-	if(verifyEmptyList(lista) || posicao == 0){ //Verifica se a lista está vazia
+	if(verifyEmptyList(lista) || posicao < 0){ //Verifica se a lista está vazia
 		
 		inserirNoInicio(dia, mes, ano, valor, situacao, lista);
 		
@@ -522,27 +522,18 @@ void getConta(lista *lista, int index){
 
 void dadosConta(int *dia, int *mes, int *ano, double *valor, int *situacao){
 	
-	int opc;
-	int auxDia, auxMes, auxAno;
-	double auxValor;
-	
 	printf("\n\nInsira a data de vencimento: ");
 	printf("\n\nDia: ");
-	scanf("%i", &auxDia);
-	(*dia) = auxDia;
+	scanf("%i", &(*dia));
     printf("\nMês: ");
-	scanf("%i", &auxMes);
-	(*mes) = auxMes;
+	scanf("%i", &(*mes));
 	printf("\nAno: ");
-	scanf("%i", &auxAno);
-	(*ano) = auxAno;
+	scanf("%i", &(*ano));
 	printf("\nInsira o valor da conta: R$ ");
-	scanf("%d", &auxValor);
-	(*valor) = auxValor;
+	scanf("%d", &(*valor));
 	printf("\nInsira a situção da conta: ");
 	printf("\n(1) - PAGA");
 	printf("\n(2) - NÃO PAGA");
 	printf("\nOPÇÃO: ");
-	scanf("%i", &opc);
-	(*situacao) = opc;				
+	scanf("%i", &(*situacao));					
 }
