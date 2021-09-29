@@ -524,16 +524,16 @@ void dadosConta(int *dia, int *mes, int *ano, double *valor, int *situacao){
 	
 	printf("\n\nInsira a data de vencimento: ");
 	printf("\n\nDia: ");
-	scanf("%i", &(*dia));
+	scanf("%i", dia);
     printf("\nMês: ");
-	scanf("%i", &(*mes));
+	scanf("%i", mes);
 	printf("\nAno: ");
-	scanf("%i", &(*ano));
+	scanf("%i", ano);
 	printf("\nInsira o valor da conta: R$ ");
-	scanf("%d", &(*valor));
+	scanf("%d", valor);
 	printf("\nInsira a situção da conta: ");
 	printf("\n(1) - PAGA");
 	printf("\n(2) - NÃO PAGA");
 	printf("\nOPÇÃO: ");
-	scanf("%i", &(*situacao));					
+	scanf("%i", situacao);					
 }
