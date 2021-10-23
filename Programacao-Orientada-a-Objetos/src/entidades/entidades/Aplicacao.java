@@ -22,9 +22,68 @@ public class Aplicacao
 	static int N;
 	static int id;
 	
+	static Scanner sc = new Scanner(System.in);
+	
+	public static int obterTipoPessoa()
+	{
+		int opc;
+		do
+		{
+			opc = sc.nextInt();
+			if(opc > 2 || opc < 1) 
+			{
+				System.out.println("\n\nOpção Invalida! Digite novamente");	
+			}	
+		}while(opc > 2 || opc < 1);	
+		
+		return opc;
+	}
+	public static void printPessoaFisica(List<Fisica> listaPF, int id)
+	{
+		System.out.println("\n\nContribuinte nº " + id);
+		System.out.println("\nTipo: " + listaPF.get(id).tipo);
+		System.out.println("\nNome: " + listaPF.get(id).nome);
+		System.out.println("\nRenda: " + listaPF.get(id).renda);
+		System.out.println("\nGasto com saude: R$ " + listaPF.get(id).saude);
+		System.out.println("\nImposto: R$ " + listaPF.get(id).imposto);	
+	}
+	public static void printPessoaJuridica(List<Juridica> listaPJ, int id)
+	{
+		System.out.println("\n\nContribuinte nº " + id);
+		System.out.println("\nTipo: " + listaPJ.get(id).tipo);
+		System.out.println("\nNome: " + listaPJ.get(id).nome);
+		System.out.println("\nRenda: " + listaPJ.get(id).renda);
+		System.out.println("\nNumero de funcionarios: " + listaPJ.get(id).funcionarios);
+		System.out.println("\nImposto: R$ " + listaPJ.get(id).imposto);		
+	}
+	public static boolean seListaVazia(List<Fisica> listaPF, List<Juridica> listaPJ, int opc)
+	{
+		boolean vazia = false;
+		
+		if ((listaPF.isEmpty() == true && opc == 1) || (listaPJ.isEmpty() == true && opc == 2))
+		{
+			System.out.println("\n\nLista Vazia!");
+			vazia = true;
+		}
+		return vazia; 	
+	}
+	public static int obterIndicePessoa(List<Fisica> listaPF, List<Juridica> listaPJ, int opc)
+	{		
+		do
+		{
+			System.out.println("\nDigite o índice do contribuinte (inicia do 0): ");
+			id = sc.nextInt();
+			
+			if((id >= listaPF.size() && opc == 1) || (id >= listaPJ.size() && opc == 2))
+			{
+				System.out.println("\n\nIndice fora dos limites da lista! Digite novamente");	
+			}
+		}while((id >= listaPF.size() && opc == 1) || (id >= listaPJ.size() && opc == 2) );
+		
+		return id;
+	}
 	public static void main(String[] args) 
 	{	 
-		Scanner sc = new Scanner(System.in);
 		Locale.setDefault(Locale.US);
 		
 		Fisica pessoaF;
@@ -59,185 +118,128 @@ public class Aplicacao
 			{
 				case 1:
 					
-					do
-					{
-						System.out.println("\n\nÉ um contribuinte: \n1 - Pessoa Fisica \n2 - Pessoa Juridica: \n\nResposta: ");
-						opc = sc.nextInt();
-						
-						if(opc > 2 || opc < 1) 
-						{
-							System.out.println("\n\nOpção Invalida! Digite novamente");	
-						}	
-					}while(opc > 2 || opc < 1);	
+					System.out.println("\n\nÉ um contribuinte: \n1 - Pessoa Fisica \n2 - Pessoa Juridica: \n\nResposta: ");
+					opc = obterTipoPessoa();	
 					
-						System.out.println("\n\nDigite o número de contribuintes a serem inseridos: ");
-						N = sc.nextInt();
+					System.out.println("\n\nDigite o número de contribuintes a serem inseridos: ");
+					N = sc.nextInt(); 
 						
-						for(i = 0; i < N; i++)
-						{		
-							do 
+					for(i = 0; i < N; i++)
+					{		
+						do 
+						{
+							System.out.println("\n\nDigite o nome do contribuinte: ");
+							nome = sc.next();
+							System.out.println("\n\nDigite a renda do contribuinte: ");
+							renda = sc.nextFloat();
+						
+							if(opc == 1) 
 							{
-								System.out.println("\n\nDigite o nome do contribuinte: ");
-								nome = sc.next();
-								System.out.println("\n\nDigite a renda do contribuinte: ");
-								renda = sc.nextFloat();
-						
-								if(opc == 1) 
-								{
-									System.out.println("\n\nDigite os gastos com saude do contribuinte: ");
-									saude = sc.nextFloat();
+								System.out.println("\n\nDigite os gastos com saude do contribuinte: ");
+								saude = sc.nextFloat();
 				
-									tipo = new String("Pessoa Fisica");
-									pessoaF.setNome(nome);
-									pessoaF.setRenda(renda);
-									pessoaF.setSaude(saude);
-									pessoaF.setTipo(tipo);
-									imposto = pessoaF.calcularImposto(renda);
+								tipo = new String("Pessoa Fisica");
+								pessoaF.setNome(nome);
+								pessoaF.setRenda(renda);
+								pessoaF.setSaude(saude);
+								pessoaF.setTipo(tipo);
+								imposto = pessoaF.calcularImposto(renda);
 									
-									System.out.println("\n\nImposto = " + imposto);
+								System.out.println("\n\nImposto = " + imposto);
 									
-									Fisica vetorPF [] = new Fisica[N];
-									vetorPF[i] = new Fisica(tipo, nome, renda, imposto, saude);
-									listaPF.add(vetorPF[i]);
+								Fisica vetorPF [] = new Fisica[N];
+								vetorPF[i] = new Fisica(tipo, nome, renda, imposto, saude);
+								listaPF.add(vetorPF[i]);
 							
-								}
-								else if (opc == 2)
-								{
-								
-									System.out.println("\n\nDigite o numero de funcionarios: ");
-									funcionarios = sc.nextInt();
-									tipo = new String("Pessoa Juridica");
-									pessoaJ.setNome(nome);
-									pessoaJ.setRenda(renda);
-									pessoaJ.setFuncionarios(funcionarios);
-									pessoaJ.setTipo(tipo);
-									imposto = pessoaJ.calcularImposto(renda);
+							}
+							else if (opc == 2)
+							{
+								System.out.println("\n\nDigite o numero de funcionarios: ");
+								funcionarios = sc.nextInt();
+								tipo = new String("Pessoa Juridica");
+								pessoaJ.setNome(nome);
+								pessoaJ.setRenda(renda);
+								pessoaJ.setFuncionarios(funcionarios);
+								pessoaJ.setTipo(tipo);
+								imposto = pessoaJ.calcularImposto(renda);
 									
-									System.out.println("\n\nImposto = " + imposto);
+								System.out.println("\n\nImposto = " + imposto);
 									
-									Juridica vetorPJ [] = new Juridica[N];
-									vetorPJ[i] = new Juridica(tipo, nome, renda, imposto, funcionarios);
-									listaPJ.add(vetorPJ[i]);
-								}	
+								Juridica vetorPJ [] = new Juridica[N];
+								vetorPJ[i] = new Juridica(tipo, nome, renda, imposto, funcionarios);
+								listaPJ.add(vetorPJ[i]);
+							}	
 								
-							}while(opc > 2 || opc < 1);
-						}	
+						}while(opc > 2 || opc < 1);
+					}	
 								
 				break;
 					
 				case 2:
-					do
+					
+					System.out.println("\n\nÉ um contribuinte: \n1 - Pessoa Fisica \n2 - Pessoa Juridica: \n\nResposta: ");
+					opc = obterTipoPessoa();	
+					
+					if(seListaVazia( listaPF, listaPJ, opc) == true)
+					{	}
+					else 
 					{
-						System.out.println("\n\nÉ um contribuinte: \n1 - Pessoa Fisica \n2 - Pessoa Juridica: \n\nResposta: ");
-						opc = sc.nextInt();
-						
-						if(opc > 2 || opc < 1) 
+						obterIndicePessoa(listaPF, listaPJ, opc);
+					
+						if (opc == 1)
 						{
-							System.out.println("\n\nOpção Invalida! Digite novamente");	
+							printPessoaFisica(listaPF, id);
+						} 
+						else
+						{
+							printPessoaJuridica(listaPJ, id);
 						}	
-						
-					}while(opc > 2 || opc < 1);	
+					}
 					
-					do 
-					{
-						System.out.println("\nDigite o índice do contribuinte (inicia do 0): ");
-						id = sc.nextInt();
-						if(id > listaPF.size() || id > listaPJ.size())
-						{
-							System.out.println("\n\nIndice fora dos limites da lista! Digite novamente");	
-						}
-					}while(id > listaPF.size() || id > listaPJ.size());
-					
-					if (opc == 1)
-					{
-						System.out.println("\n\nContribuinte nº " + id);
-						System.out.println("\nTipo: " + listaPF.get(id).tipo);
-						System.out.println("\nNome: " + listaPF.get(id).nome);
-						System.out.println("\nRenda: " + listaPF.get(id).renda);
-						System.out.println("\nGasto com saude: R$ " + listaPF.get(id).saude);
-						System.out.println("\nImposto: R$ " + listaPF.get(id).imposto);
-					} 
-					else
-					{
-						System.out.println("\n\nContribuinte nº " + id);
-						System.out.println("\nTipo: " + listaPJ.get(id).tipo);
-						System.out.println("\nNome: " + listaPJ.get(id).nome);
-						System.out.println("\nRenda: " + listaPJ.get(id).renda);
-						System.out.println("\nNumero de funcionarios: " + listaPJ.get(id).funcionarios);
-						System.out.println("\nImposto: R$ " + listaPJ.get(id).imposto);		
-					}	
 				break;
 				
 				case 3:
-					
-					do
-					{
-						System.out.println("\n\nDeseja ver a lista de contribuintes: \n1 - Pessoa Fisica \n2 - Pessoa Juridica: \n\nResposta: ");
-						opc = sc.nextInt();
 						
-						if(opc > 2 || opc < 1) 
-						{
-							System.out.println("\n\nOpção Invalida! Digite novamente");	
-						}	
-					}while(opc > 2 || opc < 1);	
-						
-					System.out.println("\nLista de contribuintes: " );
+					System.out.println("\n\nDeseja ver a lista de contribuintes: \n1 - Pessoa Fisica \n2 - Pessoa Juridica: \n\nResposta: ");
+					opc = obterTipoPessoa();	
 					
-					if (opc == 1)
-					{
-						for (i=0; i<listaPF.size(); i++)
-						{
-							System.out.println("\n\nContribuinte nº " + i);
-							System.out.println("\nTipo: " + listaPF.get(i).tipo);
-							System.out.println("\nNome: " + listaPF.get(i).nome);
-							System.out.println("\nRenda: " + listaPF.get(i).renda);
-							System.out.println("\nGasto com saude: " + listaPF.get(i).saude);
-							System.out.println("\nImposto:  " + listaPF.get(i).imposto);
-						}
-					} 
+					if(seListaVazia( listaPF, listaPJ, opc) == true)
+					{	}
 					else 
 					{
-						for (i=0; i<listaPJ.size(); i++)
+						System.out.println("\nLista de contribuintes: " );
+						
+						if (opc == 1)
 						{
-							System.out.println("\n\nContribuinte nº " + i);
-							System.out.println("\nTipo: " + listaPJ.get(i).tipo);
-							System.out.println("\nNome: " + listaPJ.get(i).nome);
-							System.out.println("\nRenda: " + listaPJ.get(i).renda);
-							System.out.println("\nNumero de funcionarios: " + listaPJ.get(i).funcionarios);
-							System.out.println("\nImposto: R$ " + listaPJ.get(i).imposto);		
+							for (i=0; i<listaPF.size(); i++)
+							{
+								printPessoaFisica(listaPF, i);
+							}
+						} 
+						else 
+						{
+							for (i=0; i<listaPJ.size(); i++)
+							{
+								printPessoaJuridica(listaPJ, i);
+							}
 						}
-					}		
+					}
+					
 				break;
 				
 				case 4:
 
-					do
+					System.out.println("\n\nDeseja remover um contribuinte: \n1 - Pessoa Fisica \n2 - Pessoa Juridica: \n\nResposta: ");
+					opc = obterTipoPessoa();
+						
+					if (seListaVazia( listaPF, listaPJ, opc) == true)
 					{
-						System.out.println("\n\nDeseja remover um contribuinte: \n1 - Pessoa Fisica \n2 - Pessoa Juridica: \n\nResposta: ");
-						opc = sc.nextInt();
-						
-						if(opc > 2 || opc < 1) 
-						{
-							System.out.println("\n\nOpção Invalida! Digite novamente");	
-						}	
-						
-					}while(opc > 2 || opc < 1);	
-					
-						do 
-						{
-							System.out.println("\nDigite o índice do contribuinte (inicia do 0): ");
-							id = sc.nextInt();
-							if(id > listaPF.size() || id > listaPJ.size())
-							{
-								System.out.println("\n\nIndice fora dos limites da lista! Digite novamente");	
-							}
-						}while(id > listaPF.size() || id > listaPJ.size());
-						
-						if (listaPF ==  null || listaPJ == null)
-						{
-							System.out.println("\n\nLista Vazia! Impossivel realizar exclusao");	
-						} 
-						else if (opc == 1)
+						System.out.println("\nImpossivel realizar exclusao!");
+					}
+					else 
+					{
+						obterIndicePessoa(listaPF, listaPJ, opc);
+						if (opc == 1)
 						{
 							listaPF.remove(id);
 							System.out.println("\nRemovido com sucesso! ");
@@ -247,37 +249,29 @@ public class Aplicacao
 							listaPJ.remove(id);
 							System.out.println("\nRemovido com sucesso! ");
 						}	
+					}		
 					
 				break;
 				
 				case 5:
 					
-					do
-					{
-						System.out.println("\n\nDeseja deletar a lista de contribuinte: \n1 - Pessoa Fisica \n2 - Pessoa Juridica: \n\nResposta: ");
-						opc = sc.nextInt();
-						
-						if(opc > 2 || opc < 1) 
-						{
-							System.out.println("\n\nOpção Invalida! Digite novamente");	
-						}	
-						
-					}while(opc > 2 || opc < 1);	
+					System.out.println("\n\nDeseja deletar a lista de contribuinte: \n1 - Pessoa Fisica \n2 - Pessoa Juridica: \n\nResposta: ");
+					opc = obterTipoPessoa();	
 					
-						if (listaPF ==  null || listaPJ == null)
-						{
-							System.out.println("\n\nLista Vazia! Impossivel realizar exclusao");	
-						} 
-						else if (opc == 1)
-						{
-							listaPF.removeAll(listaPF);
-							System.out.println("\nRemovido com sucesso! ");
-						}
-						else
-						{
-							listaPJ.removeAll(listaPJ);
-							System.out.println("\nRemovido com sucesso! ");
-						}
+					if (seListaVazia( listaPF, listaPJ, opc) == true)
+					{
+						System.out.println("\nImpossivel realizar exclusao!");
+					}
+					else if (opc == 1)
+					{
+						listaPF.removeAll(listaPF);
+						System.out.println("\nRemovido com sucesso! ");
+					}
+					else
+					{
+						listaPJ.removeAll(listaPJ);
+						System.out.println("\nRemovido com sucesso! ");
+					}
 
 				break;
 				
