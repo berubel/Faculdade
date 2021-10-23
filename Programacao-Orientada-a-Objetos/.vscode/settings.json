@@ -1,0 +1,6 @@
+{
+    "java.project.sourcePaths": [
+        "src/entidades"
+    ],
+    "java.project.outputPath": "bin"
+}
