@@ -89,22 +89,38 @@ int main ()
 			case 1:
 				 
 				dadosProcesso(&id, nome);
+				printf("\n\nProcesso de maior prioridade?\n\n1 - SIM\n2 - NÃO\n\nOPÇÃO: ");
 				opc = obterTipoProcesso();
 				//printf("%i", opc);
 				//std::cout<<nome;
 				adicionarProcesso(nome, id, opc, listaMenorP, listaMaiorP);
+				system("cls");
+				printf("Adicionado com sucesso!");
+				
+				break;
+				
+			case 6:
+				
+				printf("\n\nDeseja ver um processo:\n\n1 - Maior prioridade\n2 - Menor prioridade\n\nOPÇÃO: ");
+				opc = obterTipoProcesso();
+				system("cls");
+				obterProcesso(listaMenorP, listaMaiorP, opc);
 				
 				break;
 			
 			case 7:
 				
-				printf("\n\nQual lista deseja visualizar: \n1 - Processos Prioritários\n2 - Processos Simples");
-				printf("\nResposta: ");
-				scanf("%i", &opc);
+				printf("\n\nQual lista de processos deseja visualizar: \n\n1 - Maior prioridade\n2 - Menor prioridade\n\nOPÇÃO: ");
+				opc = obterTipoProcesso();
+				system("cls");
 				//std::cin >> opc;
 				printLista(listaMenorP, listaMaiorP, opc);
 				
 				break;
+				
+			default:
+				
+				printf("Opção inválida!!");
 				 
 		}
     
@@ -119,7 +135,7 @@ int main ()
 			
 			if (op < 1|| op > 2)
 			{
-				printf("\n\nOpção inválida!");
+				printf("\n\nOpção inválida! Digite novamente");
 			}
 				
 		}while(op < 1 || op > 2);
@@ -170,11 +186,11 @@ void adicionarProcesso(std::string& nome, int id, int opc, ListaMenorPrioridade 
 	static int tmp = 0;
 	static std::string nomeTemp[255];
 	nomeTemp[tmp] = nome;
-	//std::cout<<nome;
+	
 	Processos *newProcesso = criarNovoProcesso(nomeTemp[tmp], id);
-	std::cout<<"\nNome: "<<*newProcesso->nome<<"\nPID: "<<newProcesso->PID<<"\n\n";
 	
 	tmp++;
+	
 	if (verificarListaVazia(listaMe, listaMa, opc) == true)
 	{
 		if (opc == 1)
@@ -239,6 +255,7 @@ bool verificarListaVazia(ListaMenorPrioridade *listaMe, ListaMaiorPrioridade *li
 
 void printProcesso(Processos *processo, int index)
 {
+	printf("PROCESSO nº %i", index);
 	std::cout<<"\nNome: "<<*processo->nome<<"\nPID: "<<processo->PID<<"\n\n";
 }
 
@@ -252,10 +269,9 @@ void printLista(ListaMenorPrioridade *listaMe, ListaMaiorPrioridade *listaMa, in
 	}
 	else
 	{	
-		printf("\nMINHA LISTA DE CONTAS \n\n");
-
 		if (opc == 1)
 		{
+			printf("\nLISTA DE PROCESSOS MAIOR PRIORIDADE \n\n");
 			Processos *atual = listaMa->inicio; 
 			int i = 0;
 			while (atual != NULL)
@@ -267,6 +283,7 @@ void printLista(ListaMenorPrioridade *listaMe, ListaMaiorPrioridade *listaMa, in
 		}
 		else
 		{
+			printf("\nLISTA DE PROCESSOS MENOR PRIORIDADE \n\n");
 			Processos *atual = listaMe->inicio; 
 			int i = 0;
 			while (atual != NULL)
@@ -284,7 +301,6 @@ int obterTipoProcesso()
 	
 		do
 		{
-			printf("\n\nProcesso prioritário?\n1 - SIM\n2 - NÃO\nResposta: ");
 			scanf("%i", &opc);
 			//std::cin >> opc;
 			if(opc < 1 || opc > 2)
@@ -295,3 +311,59 @@ int obterTipoProcesso()
 		
 	return opc;
 }
+
+void obterProcesso(ListaMenorPrioridade *listaMe, ListaMaiorPrioridade *listaMa, int opc)
+{
+	if (verificarListaVazia(listaMe, listaMa, opc))
+	{ 
+		printf("\nLista Vazia");
+	}
+	else
+	{	
+		int id;
+		int i = 0;
+		
+		printf("Digite o PID do processo: ");
+		scanf("%i", &id);
+		system("cls");
+
+		if (opc == 1)
+		{
+			Processos *atual = listaMa->inicio; 
+			while (atual != NULL)
+			{ 		 
+				if(atual->PID == id)
+				{
+					printProcesso(atual, i); 
+				}
+				else if(id != atual->PID && atual->proximo == NULL)
+				{
+					printf("Índice inválido!!");
+				
+				}
+				atual = atual->proximo; 
+				i++;
+			}
+		}
+	
+		else
+		{
+			Processos *atual = listaMe->inicio; 
+			while (atual != NULL)
+			{ 		 
+				if(atual->PID == id)
+				{
+					printProcesso(atual, i); 
+				}
+				else if(id != atual->PID && atual->proximo == NULL)
+				{
+					printf("Índice inválido!!");
+				
+				}
+				atual = atual->proximo; 
+				i++;
+			}
+		}	
+	}	
+}
+
