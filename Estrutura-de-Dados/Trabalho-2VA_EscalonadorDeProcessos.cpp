@@ -1,11 +1,7 @@
 #include<stdio.h>
 #include<iostream>
-#include<math.h>
 #include<locale.h>
 #include<stdlib.h>
-#include<string.h>
-#include<string>
-#include <stdbool.h>
 
 // 2010840 - Gabriele Cardoso das Virgens
 
@@ -52,6 +48,7 @@ void printLista(ListaMenorPrioridade *listaMe, ListaMaiorPrioridade *listaMa, in
 std::string dadosProcesso(int *id, std::string& nome);
 bool verificarListaVazia(ListaMenorPrioridade *listaMe, ListaMaiorPrioridade *listaMa, int opc);
 int obterTipoProcesso();
+int printMenu(int op);
 
 int n = 1;
 
@@ -71,18 +68,7 @@ int main ()
 	{
 		
 		
-    	printf("ESCALONADOR DE PROCESSOS POR PRIORIDADE");
-   	    printf("\n\nMenu:");
-    	printf("\n\n(1) - Adicionar processo");
-    	printf("\n(2) - Executar processo");
-    	printf("\n(3) - Mover processo");
-    	printf("\n(4) - Finalizar processo");
-    	printf("\n(5) - Finalizar processo específico");
-    	printf("\n(6) - Obter um processo");
-    	printf("\n(7) - Imprimir fila\n\n");
-    	printf("OPÇÃO: ");
-    	scanf("%i",&op);
-		//std::cin >> op;
+    	op = printMenu(op);
     	
     	switch (op)
 		{
@@ -95,8 +81,10 @@ int main ()
 				//std::cout<<nome;
 				adicionarProcesso(nome, id, opc, listaMenorP, listaMaiorP);
 				system("cls");
-				printf("Adicionado com sucesso!");
+				printLista(listaMenorP, listaMaiorP, opc);
+				printf("\n\nAdicionado com sucesso!");
 				
+					
 				break;
 				
 			case 2:
@@ -235,11 +223,11 @@ void executarProcesso(ListaMenorPrioridade *listaMe, ListaMaiorPrioridade *lista
 {
 	int opc = 1;
 	
-	if (verificarListaVazia(listaMe, listaMa, opc))
+	if (verificarListaVazia(listaMe, listaMa, opc) == true)
 	{ 
 		opc = 2;
 		
-		if (verificarListaVazia(listaMe, listaMa, opc))
+		if (verificarListaVazia(listaMe, listaMa, opc) == true)
 		{
 			printf("\nFilas Vazias!");
 		}
@@ -253,10 +241,26 @@ void executarProcesso(ListaMenorPrioridade *listaMe, ListaMaiorPrioridade *lista
 	}
 	else
 	{
-		listaMe->fim->proximo = listaMa->inicio;
-		listaMe->fim = listaMa->inicio;
-		listaMe->fim->proximo = NULL;
-		listaMa->inicio = listaMa->inicio->proximo;	
+		opc = 2;
+		
+		Processos *temp;
+		temp->proximo = listaMe->fim;
+		*&temp->proximo = *&listaMa->inicio;
+		listaMa->inicio = listaMa->inicio->proximo;
+		
+		if(verificarListaVazia(listaMe, listaMa, opc) == true)
+		{
+			listaMe->inicio = temp->proximo;
+			listaMe->fim = temp->proximo;
+			listaMe->inicio->proximo = listaMe->inicio;
+			listaMe->fim->proximo = NULL;					
+		}
+		else
+		{
+			listaMe->fim->proximo = temp->proximo;
+			listaMe->fim = temp->proximo;
+			listaMe->fim->proximo = NULL;			
+		}		
 	}	
 }
 
@@ -275,15 +279,11 @@ bool verificarListaVazia(ListaMenorPrioridade *listaMe, ListaMaiorPrioridade *li
 	bool vazia = false;
 	
 	if (opc == 2 && listaMe->inicio == NULL)
-	{ 	
-		listaMe->inicio = NULL;
-		listaMe->fim = NULL;
+	{ 
     	vazia = true;
 	}		
 	else if (opc == 1 && listaMa->inicio == NULL)
 	{
-		listaMa->inicio = NULL;
-		listaMa->fim = NULL;
 		vazia = true;
 	}	
 	return vazia;
@@ -401,5 +401,22 @@ void obterProcesso(ListaMenorPrioridade *listaMe, ListaMaiorPrioridade *listaMa,
 			}
 		}	
 	}	
+}
+int printMenu(int op)
+{
+		printf("ESCALONADOR DE PROCESSOS POR PRIORIDADE");
+   	    printf("\n\nMenu:");
+    	printf("\n\n(1) - Adicionar processo");
+    	printf("\n(2) - Executar processo");
+    	printf("\n(3) - Mover processo");
+    	printf("\n(4) - Finalizar processo");
+    	printf("\n(5) - Finalizar processo específico");
+    	printf("\n(6) - Obter um processo");
+    	printf("\n(7) - Imprimir fila\n\n");
+    	printf("OPÇÃO: ");
+    	scanf("%i",&op);
+		//std::cin >> op;
+		
+		return op;
 }
 
