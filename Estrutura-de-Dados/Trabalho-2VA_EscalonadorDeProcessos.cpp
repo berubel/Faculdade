@@ -49,6 +49,7 @@ std::string dadosProcesso(int *id, std::string& nome);
 bool verificarListaVazia(ListaMenorPrioridade *listaMe, ListaMaiorPrioridade *listaMa, int opc);
 int obterTipoProcesso();
 int printMenu(int op);
+void printarEVerificaLista(ListaMenorPrioridade *listaMe, ListaMaiorPrioridade *listaMa, int opc);
 
 int n = 1;
 
@@ -91,7 +92,11 @@ int main ()
 				
 				executarProcesso(listaMenorP, listaMaiorP);
 				system("cls");
-				printf("Processo executado com sucesso!");
+				opc = 1;
+				printLista(listaMenorP, listaMaiorP, opc);
+				opc = 2;
+				printLista(listaMenorP, listaMaiorP, opc);
+				printf("\nProcesso executado com sucesso!");
 				
 				break;
 				
@@ -301,7 +306,14 @@ void printLista(ListaMenorPrioridade *listaMe, ListaMaiorPrioridade *listaMa, in
 
 	if (verificarListaVazia(listaMe, listaMa, opc))
 	{ 
-		printf("\nFila Vazia!");
+		if (opc == 1)
+		{
+			printf("\nFila maior prioridade vazia!\n");
+		}
+		else
+		{
+			printf("\nFila menor prioridade vazia!\n");
+		}
 	}
 	else
 	{	
@@ -352,7 +364,14 @@ void obterProcesso(ListaMenorPrioridade *listaMe, ListaMaiorPrioridade *listaMa,
 {
 	if (verificarListaVazia(listaMe, listaMa, opc))
 	{ 
-		printf("\nFila Vazia!");
+		if (opc == 1)
+		{
+			printf("\nFila maior prioridade vazia!");
+		}
+		else
+		{
+			printf("\nFila menor prioridade vazia!");
+		}
 	}
 	else
 	{	
@@ -419,4 +438,3 @@ int printMenu(int op)
 		
 		return op;
 }
-
