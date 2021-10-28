@@ -42,7 +42,7 @@ Processos* criarNovoProcesso (std::string& nome, int id);
 ListaMaiorPrioridade* criarListaMaiorPVazia();
 ListaMenorPrioridade* criarListaMenorPVazia();
 void adicionarProcesso(std::string& nome, int id, int opc, ListaMenorPrioridade *listaMe, ListaMaiorPrioridade *listaMa);
-void executarProcesso(ListaMaiorPrioridade *lista);
+void executarProcesso(ListaMenorPrioridade *listaMe, ListaMaiorPrioridade *listaMa);
 void moverProcesso(ListaMenorPrioridade *listaMe, ListaMaiorPrioridade *listaMa, int id);
 void finalizarProcesso(ListaMaiorPrioridade *lista);
 void finalizarProcessoEspecifico(ListaMenorPrioridade *listaMe, ListaMaiorPrioridade *listaMa, int id);
@@ -79,7 +79,7 @@ int main ()
     	printf("\n(4) - Finalizar processo");
     	printf("\n(5) - Finalizar processo específico");
     	printf("\n(6) - Obter um processo");
-    	printf("\n(7) - Imprimir lista\n\n");
+    	printf("\n(7) - Imprimir fila\n\n");
     	printf("OPÇÃO: ");
     	scanf("%i",&op);
 		//std::cin >> op;
@@ -99,6 +99,14 @@ int main ()
 				
 				break;
 				
+			case 2:
+				
+				executarProcesso(listaMenorP, listaMaiorP);
+				system("cls");
+				printf("Processo executado com sucesso!");
+				
+				break;
+				
 			case 6:
 				
 				printf("\n\nDeseja ver um processo:\n\n1 - Maior prioridade\n2 - Menor prioridade\n\nOPÇÃO: ");
@@ -110,7 +118,7 @@ int main ()
 			
 			case 7:
 				
-				printf("\n\nQual lista de processos deseja visualizar: \n\n1 - Maior prioridade\n2 - Menor prioridade\n\nOPÇÃO: ");
+				printf("\n\nQual fila de processos deseja visualizar: \n\n1 - Maior prioridade\n2 - Menor prioridade\n\nOPÇÃO: ");
 				opc = obterTipoProcesso();
 				system("cls");
 				//std::cin >> opc;
@@ -223,6 +231,34 @@ void adicionarProcesso(std::string& nome, int id, int opc, ListaMenorPrioridade 
 		}
 	}	
 }
+void executarProcesso(ListaMenorPrioridade *listaMe, ListaMaiorPrioridade *listaMa)
+{
+	int opc = 1;
+	
+	if (verificarListaVazia(listaMe, listaMa, opc))
+	{ 
+		opc = 2;
+		
+		if (verificarListaVazia(listaMe, listaMa, opc))
+		{
+			printf("\nFilas Vazias!");
+		}
+		else
+		{
+			listaMe->fim->proximo = listaMe->inicio;
+			listaMe->fim = listaMe->fim->proximo;	
+			listaMe->inicio = listaMe->inicio->proximo;
+			listaMe->fim->proximo = NULL;
+		}	
+	}
+	else
+	{
+		listaMe->fim->proximo = listaMa->inicio;
+		listaMe->fim = listaMa->inicio;
+		listaMe->fim->proximo = NULL;
+		listaMa->inicio = listaMa->inicio->proximo;	
+	}	
+}
 
 std::string dadosProcesso(int *id, std::string& nome)
 {	
@@ -265,13 +301,13 @@ void printLista(ListaMenorPrioridade *listaMe, ListaMaiorPrioridade *listaMa, in
 
 	if (verificarListaVazia(listaMe, listaMa, opc))
 	{ 
-		printf("\nLista Vazia");
+		printf("\nFila Vazia!");
 	}
 	else
 	{	
 		if (opc == 1)
 		{
-			printf("\nLISTA DE PROCESSOS MAIOR PRIORIDADE \n\n");
+			printf("\nFILA DE PROCESSOS MAIOR PRIORIDADE \n\n");
 			Processos *atual = listaMa->inicio; 
 			int i = 0;
 			while (atual != NULL)
@@ -283,7 +319,7 @@ void printLista(ListaMenorPrioridade *listaMe, ListaMaiorPrioridade *listaMa, in
 		}
 		else
 		{
-			printf("\nLISTA DE PROCESSOS MENOR PRIORIDADE \n\n");
+			printf("\nFILA DE PROCESSOS MENOR PRIORIDADE \n\n");
 			Processos *atual = listaMe->inicio; 
 			int i = 0;
 			while (atual != NULL)
@@ -316,7 +352,7 @@ void obterProcesso(ListaMenorPrioridade *listaMe, ListaMaiorPrioridade *listaMa,
 {
 	if (verificarListaVazia(listaMe, listaMa, opc))
 	{ 
-		printf("\nLista Vazia");
+		printf("\nFila Vazia!");
 	}
 	else
 	{	
