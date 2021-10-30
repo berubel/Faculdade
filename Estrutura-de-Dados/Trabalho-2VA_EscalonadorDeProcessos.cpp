@@ -579,6 +579,7 @@ int obterProcesso(ListaMenorPrioridade *listaMe, ListaMaiorPrioridade *listaMa, 
 		
 		printf("Digite o índice (nº da posição na fila) do processo: ");
 		scanf("%i", &id);
+		system("cls");
 		Processos *atual;
 		
 		if (opc == 1)
