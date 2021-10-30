@@ -193,7 +193,6 @@ ListaMaiorPrioridade* criarListaMaiorPVazia()
 		
 	newListaMaiorP->inicio = NULL;
 	newListaMaiorP->fim = NULL;
-	newListaMaiorP->size = 0;
 	
 	return newListaMaiorP;
 }
@@ -204,7 +203,6 @@ ListaMenorPrioridade* criarListaMenorPVazia()
 		
 	newListaMenorP->inicio = NULL;
 	newListaMenorP->fim = NULL;
-	newListaMenorP->size = 0;
 	
 	return newListaMenorP;
 }
