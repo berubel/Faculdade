@@ -6,7 +6,7 @@
 // 2010840 - Gabriele Cardoso das Virgens
 
 /*  Aula 11 - 19/10/2021
-	Estrutura de Dados
+    Estrutura de Dados
 
     ****** ESCALONADOR DE PROCESSOS POR PRIORIDADE ******
        
@@ -17,21 +17,18 @@ typedef struct Processos
 	int PID;
 	std::string *nome;
 	struct Processos *proximo;
-	struct Processos *anterior;
 };
 
 typedef struct ListaMaiorPrioridade
 {
 	struct Processos *inicio;
 	struct Processos *fim;
-	int size;
 };
 
 typedef struct ListaMenorPrioridade
 {
 	struct Processos *inicio;
 	struct Processos *fim;
-	int size;
 };
 
 Processos* criarNovoProcesso (std::string& nome, int id);
@@ -59,12 +56,12 @@ int main ()
     int op;
     int opc;
     int id;
-	std::string nome;
+    std::string nome;
 
     do 
-	{
+    {
     	printf("ESCALONADOR DE PROCESSOS POR PRIORIDADE");
-   	    printf("\n\nMenu:");
+   	printf("\n\nMenu:");
     	printf("\n\n(1) - Adicionar processo");
     	printf("\n(2) - Executar processo");
     	printf("\n(3) - Mover processo");
@@ -158,7 +155,7 @@ int main ()
 				
 				printf("Opção inválida!!");		 
 		}
-    	do
+    		do
 		{
 			printf("\n\nDeseja realizar nova operação? ");
 			printf("\n(1) - SIM");
@@ -197,6 +194,7 @@ ListaMaiorPrioridade* criarListaMaiorPVazia()
 	newListaMaiorP->inicio = NULL;
 	newListaMaiorP->fim = NULL;
 	newListaMaiorP->size = 0;
+	
 	return newListaMaiorP;
 }
 
@@ -207,6 +205,7 @@ ListaMenorPrioridade* criarListaMenorPVazia()
 	newListaMenorP->inicio = NULL;
 	newListaMenorP->fim = NULL;
 	newListaMenorP->size = 0;
+	
 	return newListaMenorP;
 }
 
@@ -226,8 +225,7 @@ void adicionarProcesso(std::string& nome, int id, int opc, ListaMenorPrioridade 
 		{	 
 			listaMa->inicio = newProcesso;
 			listaMa->fim = newProcesso;
-			newProcesso->proximo = NULL;
-			
+			newProcesso->proximo = NULL;	
 		}
 		else
 		{
@@ -242,8 +240,7 @@ void adicionarProcesso(std::string& nome, int id, int opc, ListaMenorPrioridade 
 		{ 
 			listaMa->fim->proximo = newProcesso;
 			listaMa->fim = newProcesso;
-			listaMa->fim->proximo = NULL;
-			
+			listaMa->fim->proximo = NULL;	
 		}
 		else
 		{
@@ -322,8 +319,8 @@ void moverProcesso(ListaMenorPrioridade *listaMe, ListaMaiorPrioridade *listaMa,
 			while(atual != NULL && i !=id)
 			{
 				anterior = atual;		
-        		atual = atual->proximo;
-        		i++;
+        			atual = atual->proximo;
+        			i++;
 			}
 			if((i>=id || i!=id) && atual == NULL)
 			{
@@ -378,8 +375,8 @@ void moverProcesso(ListaMenorPrioridade *listaMe, ListaMaiorPrioridade *listaMa,
 			while(atual != NULL && i !=id)
 			{		
 				anterior = atual;		
-        		atual = atual->proximo;
-        		i++;
+        			atual = atual->proximo;
+        			i++;
 			}
 			if((i>=id || i!=id) && atual == NULL)
 			{
@@ -410,8 +407,7 @@ void moverProcesso(ListaMenorPrioridade *listaMe, ListaMaiorPrioridade *listaMa,
 					listaMa->inicio->proximo = listaMa->inicio;
 					listaMa->fim->proximo = NULL;
 					printLista(listaMe, listaMa, opc);
-					printf("\n\nProcesso movido com sucesso para fila de maior prioridade.");
-					
+					printf("\n\nProcesso movido com sucesso para fila de maior prioridade.");	
 				}
 				else
 				{
@@ -489,8 +485,8 @@ void finalizarProcessoEspecifico(ListaMenorPrioridade *listaMe, ListaMaiorPriori
 			while(atual != NULL && i !=id)
 			{
 				anterior = atual;		
-        		atual = atual->proximo;
-        		i++;
+        			atual = atual->proximo;
+        			i++;
 			}
 			if((i>=id || i!=id) && atual == NULL)
 			{
@@ -526,8 +522,8 @@ void finalizarProcessoEspecifico(ListaMenorPrioridade *listaMe, ListaMaiorPriori
 			while(atual != NULL && i !=id)
 			{		
 				anterior = atual;		
-        		atual = atual->proximo;
-        		i++;
+        			atual = atual->proximo;
+        			i++;
 			}
 			if((i>=id || i!=id) && atual == NULL)
 			{
@@ -657,6 +653,7 @@ void printLista(ListaMenorPrioridade *listaMe, ListaMaiorPrioridade *listaMa, in
 			printf("\nFILA DE PROCESSOS MAIOR PRIORIDADE \n\n");
 			Processos *atual = listaMa->inicio; 
 			int i = 0;
+			
 			while (atual != NULL)
 			{ 		
 				printProcesso(atual, i); 
@@ -669,6 +666,7 @@ void printLista(ListaMenorPrioridade *listaMe, ListaMaiorPrioridade *listaMa, in
 			printf("\nFILA DE PROCESSOS MENOR PRIORIDADE \n\n");
 			Processos *atual = listaMe->inicio; 
 			int i = 0;
+			
 			while (atual != NULL)
 			{ 		
 				printProcesso(atual, i); 
