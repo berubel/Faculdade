@@ -41,7 +41,7 @@ void adicionarProcesso(std::string& nome, int id, int opc, ListaMenorPrioridade 
 void executarProcesso(ListaMenorPrioridade *listaMe, ListaMaiorPrioridade *listaMa);
 void moverProcesso(ListaMenorPrioridade *listaMe, ListaMaiorPrioridade *listaMa, int opc);
 void finalizarProcesso(ListaMenorPrioridade *listaMe, ListaMaiorPrioridade *listaMa);
-void finalizarProcessoEspecifico(ListaMenorPrioridade *listaMe, ListaMaiorPrioridade *listaMa);
+void finalizarProcessoEspecifico(ListaMenorPrioridade *listaMe, ListaMaiorPrioridade *listaMa, int opc);
 int obterProcesso(ListaMenorPrioridade *listaMe, ListaMaiorPrioridade *listaMa, int opc);
 void printProcesso(Processos *processo, int index);
 void printLista(ListaMenorPrioridade *listaMe, ListaMaiorPrioridade *listaMa, int opc);
@@ -118,6 +118,20 @@ int main ()
 				if (opc == 1)
 				{
 					finalizarProcesso(listaMenorP, listaMaiorP);
+				}
+				
+				break;
+				
+			case 5:
+				
+				printf("\n\nDeseja finalizar um processo da fila: \n\n1 - Maior Prioridade \n2 - Menor Prioridade\n\nOPÇÃO: ");
+				opc = obterTipoProcesso();
+				printf("\n\nO processo escolhido será encerrado. Tem certeza que seja realizar a operação: \n\n1 - SIM \n2 - NÃO\n\nOPÇÃO:  ");
+				scanf("%i", &op);
+				system("cls");
+				if (op == 1)
+				{
+					finalizarProcessoEspecifico(listaMenorP, listaMaiorP, opc);
 				}
 				
 				break;
@@ -452,6 +466,105 @@ void finalizarProcesso(ListaMenorPrioridade *listaMe, ListaMaiorPrioridade *list
 	}
 }
 
+void finalizarProcessoEspecifico(ListaMenorPrioridade *listaMe, ListaMaiorPrioridade *listaMa, int opc)
+{
+	Processos *atual;
+	Processos *anterior;
+	
+	if (verificarListaVazia(listaMe, listaMa, opc) == false)
+	{
+		printLista(listaMe, listaMa, opc);
+		int id = obterProcesso(listaMe, listaMa, opc);
+		system("cls");
+		
+		if (opc == 1)
+		{
+			opc = 2;
+		
+			atual = listaMa->inicio; 
+			anterior = listaMa->inicio;
+	
+			int i = 0;
+				
+			while(atual != NULL && i !=id)
+			{
+				anterior = atual;		
+        		atual = atual->proximo;
+        		i++;
+			}
+			if((i>=id || i!=id) && atual == NULL)
+			{
+				printf("Índice inválido!!");
+			}			
+			else if (i == id)
+			{
+				if(id == 0)
+				{
+					listaMa->inicio = listaMa->inicio->proximo;				
+				}
+				else if(atual->proximo == NULL)
+				{	
+					listaMa->fim = anterior;
+					listaMa->fim->proximo = NULL;
+				}
+				else
+				{
+					anterior->proximo = atual->proximo;
+				}
+				printLista(listaMe, listaMa, 1);
+			}	
+		}
+		else
+		{
+			opc = 1;
+		
+			atual = listaMe->inicio; 
+			anterior = listaMe->inicio;
+	
+			int i = 0;
+			
+			while(atual != NULL && i !=id)
+			{		
+				anterior = atual;		
+        		atual = atual->proximo;
+        		i++;
+			}
+			if((i>=id || i!=id) && atual == NULL)
+			{
+				printf("Índice inválido!!");
+			}	
+			else if(i == id)
+			{
+				if(id == 0)
+				{
+					listaMe->inicio = listaMe->inicio->proximo;
+				}
+				else if(atual->proximo == NULL)
+				{
+					listaMe->fim = anterior;
+					listaMe->fim->proximo = NULL;
+				}
+				else
+				{
+					anterior->proximo = atual->proximo;
+				}
+				printLista(listaMe, listaMa, 2);
+			}
+		}
+	}	
+	else
+	{
+		if (opc == 1)
+		{
+			printf("\nFila maior prioridade vazia!");
+		}
+		else
+		{
+			printf("\nFila menor prioridade vazia!");
+		}
+	}	
+}
+
 int obterProcesso(ListaMenorPrioridade *listaMe, ListaMaiorPrioridade *listaMa, int opc)
 {
 	if (verificarListaVazia(listaMe, listaMa, opc) == true)
@@ -472,7 +585,6 @@ int obterProcesso(ListaMenorPrioridade *listaMe, ListaMaiorPrioridade *listaMa, 
 		
 		printf("Digite o índice (nº da posição na fila) do processo: ");
 		scanf("%i", &id);
-		//system("cls");
 		Processos *atual;
 		
 		if (opc == 1)
