@@ -593,7 +593,7 @@ int obterProcesso(ListaMenorPrioridade *listaMe, ListaMaiorPrioridade *listaMa, 
 					printf("PROCESSO MAIOR PRIORIDADE \n\n");
 					printProcesso(atual, i); 
 				}
-				else if(id != i && atual == NULL)
+				else if(i < id && atual->proximo == NULL)
 				{
 					printf("Índice inválido!!");
 				
@@ -613,7 +613,7 @@ int obterProcesso(ListaMenorPrioridade *listaMe, ListaMaiorPrioridade *listaMa, 
 					printf("PROCESSO MENOR PRIORIDADE \n\n");
 					printProcesso(atual, i); 
 				}
-				else if(id != i && atual == NULL)
+				else if(i < id && atual->proximo == NULL)
 				{
 					printf("Índice inválido!!");
 				
@@ -711,11 +711,10 @@ int obterTipoProcesso()
 			
 			if(opc < 1 || opc > 2)
 			{
-				printf("\n\nOpção Inválida! Digite novamente");
+				printf("\n\nOpção Inválida! Digite novamente.\nOPÇÃO: ");
 			}
 		}while(opc < 1 || opc > 2);
 		
 	return opc;
 }
-
 
