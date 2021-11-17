@@ -1,8 +1,6 @@
 #include<stdio.h>
 #include<iostream>
-#include<math.h>
 #include<locale.h>
-#include<stdlib.h>
 
 // 2010840 - Gabriele Cardoso das Virgens
 
