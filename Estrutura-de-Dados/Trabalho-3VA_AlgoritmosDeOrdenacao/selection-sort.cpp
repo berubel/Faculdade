@@ -35,7 +35,7 @@ void fillVector(int v[], int n) { // Preenche o vetor
 	}
 }
 
-int select(int v[], int n) { // Seleciona o menor
+int select(int v[], int n) { // Compara o menor selecionado com o atual e retorna a posição do maior
 	int i = 0;
 	for (int j=1; j<n; j++) {
 		if (v[i] < v[j]) {
@@ -48,7 +48,6 @@ int select(int v[], int n) { // Seleciona o menor
 void selection_sort(int v[], int n) { // Ordena o vetor
 	int aux;
 	while (n>1) {	
-		int k = select(v, n);
 		aux = v[n-1];
 		v[n-1] = v[select(v, n)];
 		v[select(v, n)] = aux; 

@@ -36,17 +36,15 @@ void fillVector(int v[], int n) { // Preenche o vetor
 }
 
 void bubble_sort(int v[], int n) { // Ordena o vetor
-	int aux, swap=0;
+	int aux;
 	
 	for (int i=1; i <= n-1; i++) {
 		for (int j=0; j < n-1; j++) {
-			if (v[j] > v[j+1]) {
+			if (v[j] > v[j+1]) { // Compara o atual com o próximo e troca e troca caso for maior
 				aux = v[j+1];
 				v[j+1] = v[j];
 				v[j] = aux;	
-				swap++;
-			}
-			
+			}	
 		}
 	}
 }
