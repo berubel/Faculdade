@@ -35,7 +35,7 @@ Tempo médio de 5 execuções em milissegundos (ms) para cada tamanho de vetor:
 * 10000 - 248,000000 ms
 * 100000 - 24700,600000 ms
 
-### inserion_sort 
+### insertion_sort 
 
 Tempo médio de 5 execuções em milissegundos (ms) para cada tamanho de vetor:
 * 10 - 0,000000 ms
