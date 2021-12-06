@@ -64,7 +64,7 @@ void merge(int vector[], int initial, int mid, int final){ // Intercala a partir
 		w[k++] = vector[j++]; // caso sobrar elementos da segunda metade
 	}
 	for(k=0; k<size; k++){
-		vector[initial+k] = w[k]; // atribuir valores ordenados em k ao vetor
+		vector[initial+k] = w[k]; // atribuir valores ordenados em w ao vetor
 	}
 }
 
