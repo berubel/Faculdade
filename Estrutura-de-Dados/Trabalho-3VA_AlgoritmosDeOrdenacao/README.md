@@ -93,6 +93,10 @@ O insertion sort é um algoritmo simples e eficiente quando aplicado em pequenas
 
 ### merge_sort 
 
+O merge sort é um algoritmo que divide o todo em pequenos pedaços, resolve cada pedaço e depois intercala (merge) os resultados. Para isso, o vetor, a partir da recursão, será dividido em duas metades iguais, que serão cada uma divididas em duas partes, até que não seja mais possível a divisão. Em seguida, os elementos de cada grupo (metade) serão organizados de modo que fiquem ordenados. Para juntar as partes ordenadas os dois elementos de cada metade são separados e o menor deles é selecionado e retirado de sua parte. Feito isso, os menores entre os restantes são comparados e assim sucessivamente, intercalando-os até que todos estejam unidos novamente em uma única estrutura. Dentre todos os métodos testados, este é o mais eficiente, com um desempenho extremamente superior quando comparado aos demais. No entanto, por conta da recursividade, o mesmo é indicado para implementação em grandes estruturas desorganizadas, em situações opostas, a recursão pode trazer um aumento desnecessário no tempo de processamento.
+
+    Possui complexidade C(n) = O(n log n) para todos os casos. É um algoritmo estável.
+
 # Grupo
 
 - 2010840 - Gabriele Cardoso das Virgens
