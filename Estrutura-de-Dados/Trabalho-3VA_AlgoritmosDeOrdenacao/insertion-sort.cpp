@@ -12,9 +12,9 @@ void printVector(int v[], int n);
 int main() {
 	
     clock_t t1, t2;
-	int vector[SIZE];
+    int vector[SIZE];
 
-	fillVector(vector, SIZE);
+    fillVector(vector, SIZE);
     //printVector(vector, SIZE);
 
     t1 = clock(); // tempo inicial
@@ -23,7 +23,7 @@ int main() {
     t2 = clock(); // tempo final
     printf("\nTempo de execucao apos o insertion sort: %lf\n\n", ((double)t2)/((CLOCKS_PER_SEC/1000))); // milissegundos
     t2 = t2 - t1; // tempo final - tempo inicial
-	//printVector(vector, SIZE);
+    //printVector(vector, SIZE);
     printf("\nTempo de execucao do insertion sort: %lf \n\n", ((double)t2)/((CLOCKS_PER_SEC/1000))); // milissegundos
 	
 }
