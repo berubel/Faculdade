@@ -11,12 +11,12 @@ void printVector(int v[], int n);
 
 int main() {
 	
-        clock_t t1, t2;
-	int vector[SIZE];
-    
-	int initial = 0;
-	int final = fillVector(vector, SIZE);
-        //printVector(vector, SIZE);
+    clock_t t1, t2;
+    int vector[SIZE];
+	
+    int initial = 0;
+    int final = fillVector(vector, SIZE);
+    //printVector(vector, SIZE);
     
     t1 = clock(); // tempo inicial
     printf("\nTempo de execucao antes do selection sort: %lf \n\n", ((double)t1)/((CLOCKS_PER_SEC/1000))); // milissegundos
