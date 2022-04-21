@@ -12,10 +12,10 @@ void printVector(int v[], int n);
 int main() {
 	
     clock_t t1, t2;
-	int vector[SIZE];
-    
-	int initial = 0;
-	int final = fillVector(vector, SIZE);
+    int vector[SIZE];
+	
+    int initial = 0;
+    int final = fillVector(vector, SIZE);
     //printVector(vector, SIZE);
     
     t1 = clock(); // tempo inicial
@@ -24,13 +24,13 @@ int main() {
     t2 = clock(); // tempo final
     printf("\nTempo de execucao apos o selection sort: %lf\n\n", ((double)t2)/((CLOCKS_PER_SEC/1000))); // milissegundos
     t2 = t2 - t1; // tempo final - tempo inicial
-	//printVector(vector, SIZE);
+    //printVector(vector, SIZE);
     printf("\nTempo de execucao do selection sort: %lf \n\n", ((double)t2)/((CLOCKS_PER_SEC/1000))); // milissegundos
 	
 }
 
 int fillVector(int v[], int n) { // Preenche o vetor
-	srand(time(NULL));
+    srand(time(NULL));
     int final;
 	for (int i=0; i<n; i++) {
 		v[i] = rand() % 100 + 1;
