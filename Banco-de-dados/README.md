@@ -1,6 +1,6 @@
-# Faculdade_ProgramacaoWeb
+# Faculdade_SistemasGerenciadoresDeBancoDeDados
 
-    Repositório para códigos e projetos desenvolvidos para disciplina de Programação Web.
+    Repositório para códigos e projetos desenvolvidos para disciplina de Sistemas Gerenciadores de Banco de Dados.
 
 * Aluna: Gabriele Cardoso das Virgens
 
