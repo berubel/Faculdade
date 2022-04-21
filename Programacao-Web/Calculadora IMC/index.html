@@ -1,0 +1,132 @@
+<html>
+    <head>
+        <title>Calculadora IMC</title>
+        <link rel="stylesheet" href="style.css">
+        <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+        <body>
+            <div class="container">
+                <div class="row">
+                    <div class="col-auto">
+                        <h1 class="display-1">Calculadora IMC</h1> <br>
+                        <div id="calculadora">
+                            <div class="col-6">
+                                <form id="form" class="form">
+                                    <lable for="peso">
+                                        <input input class="form-control" type="number" name="peso" id="peso" class="field" placeholder="Peso em Kg">
+                                    </lable>
+                                    <lable for="altura">
+                                        <input input class="form-control" type="number" name="altura"  id="altura" class="field" placeholder="Altura em cm">
+                                    </lable>
+                            </div>
+                            <div class="col-7">
+                                    <label for="imc">
+                                        <input class="form-control" disabled="disabled" name="imc" id="imc" placeholder="IMC">
+                                    </label>
+                                    <input button type="submit" id= "calcular" class="btn btn-primary mb-1" value="Calcular" onClick=" formCalcularIMC">
+                                </form>
+                            </div>
+                            <br>
+                            <div class="col">
+                                <table class="table table-light">
+                                    <thead>
+                                      <tr >
+                                        <th scope="col">#</th>
+                                        <th scope="col">Nível</th>
+                                        <th scope="col">IMC</th>
+                                        <th scope="col">Peso</th>
+                                      </tr>
+                                    </thead>
+                                    <tbody>
+                                      <tr class="table-warning" id="magreza">
+                                        <th scope="row">1</th>
+                                        <td>Magreza</td>
+                                        <td>Menor que 18.5 </td>
+                                        <td>Menor que 48.6 Kg</td>
+                                      </tr>
+                                      <tr class="table-success" id="normal">
+                                        <th scope="row">2</th>
+                                        <td>Normal</td>
+                                        <td>18.5 a 24.9</td>
+                                        <td>48.6 a 65.3 Kg</td>
+                                      </tr>
+                                      <tr class="table-warning" id="sobrepeso">
+                                        <th scope="row">3</th>
+                                        <td>Sobrepeso</td>
+                                        <td>24.9 a 30</td>
+                                        <td>65.3 a 78.7 Kg</td>
+                                      </tr>
+                                      <tr class="table-danger" id="obesidade">
+                                        <th scope="row">4</th>
+                                        <td>Obesidade</td>
+                                        <td>Maior que 30 </td>
+                                        <td>Maior que 78.7 Kg</td>
+                                      </tr>
+                                    </tbody>
+                                </table>
+                                <div class="col-7">
+                                    <div id="mensagem" onClick=" formCalcularIMC"></div>
+                                </div>
+                            </div>
+                        </div>
+                     </div>
+                </div>
+            </div>
+            <script>
+                function validaEntrada(args) {
+                    for (let i = 0; i < arguments.length; i++) {
+                         if (!!arguments[i] == false || arguments[i] < 0) {
+                        return false;
+                        }
+                    }
+                    return true;
+                }
+               function calcularIMC(peso, altura) {
+                    altura = altura / 100;
+                    imc = (peso / (altura * altura));
+                    return imc;
+                }
+    
+                const formCalcularIMC = document.getElementById('form');
+    
+                window.onload=formCalcularIMC.addEventListener('submit', function(event) {
+                    event.preventDefault();
+    
+                    const peso = parseFloat(document.getElementById('peso').value);
+                    const altura = parseFloat(document.getElementById('altura').value);
+    
+                    const imc = calcularIMC(peso, altura);
+                    document.getElementById('imc').value = parseFloat(imc).toFixed(2);
+                    verificarIMC(imc);
+                  
+                });
+    
+                function verificarIMC(imc) {
+                    if (imc < 18.5) {
+                        createMessage("Abaixo do peso", "warning")
+                    }else if (imc >= 18.5 && imc <= 24.99){
+                        createMessage("Peso normal", "sucess")
+                    } else if (imc >= 25 && imc <= 29.99){
+                        createMessage("Acima do peso", "warning")
+                    } else if(imc >= 30){
+                        createMessage("Obesidade", "danger")
+                    }
+                }
+               function createMessage(msg, type) {
+                    document.querySelector("#mensagem")
+                    .insertAdjacentHTML("beforebegin", `<div class='message ${type}'>${msg}</div>`);
+
+                    setTimeout(function () {
+                        deleteMessage();
+                    }, 5000);
+                }
+
+                function deleteMessage() {
+                    const list = document.querySelectorAll(".message");
+                    for (const item of list) {
+                        item.remove();
+                    }
+                }
+            </script>
+        </body>
+    </head>
+</html>
