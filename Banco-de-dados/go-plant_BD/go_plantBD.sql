@@ -95,17 +95,26 @@ CREATE TABLE Tempo_Etapa_Plantas(
 );
 
 
+
+
 -- Query de inserção de dados
 
 INSERT INTO Usuarios (id_usuario, cpf, nome, email, senha, status)
 	VALUES (1, '99988877722', 'Gabriele Cardoso das Virgens', 'pompom@gmail.com', 'po125mPO*', 'true');
+INSERT INTO Usuarios (id_usuario, cpf, nome, email, senha, status)
+	VALUES (2, '62986845123', 'Cedric Arnaud', 'james@gmail.com', 'pa111mPO*', 'true');	
+INSERT INTO Usuarios (id_usuario, cpf, nome, email, senha, status)
+	VALUES (3, '61897865589', 'João cândido', 'joao@gmail.com', '1235jo*', 'true');
+INSERT INTO Usuarios (id_usuario, cpf, nome, email, senha, status)
+	VALUES (4, '51895466889', 'Gustavo', 'gustavo@gmail.com', 'gust03O*', 'true');	
+	
 	
 INSERT INTO Plantas (ID_planta, nome, imagem, descricao)
 	VALUES (1, 'laranja','','A laranja é o fruto da laranjeira, uma árvore da família Rutaceae'),
 		   (2, 'banana','','Banana é uma pseudobaga da bananeira, uma planta herbácea vivaz acaule da família Musaceae'),
 		   (3, 'feijao','','Feijão é um nome comum para uma grande variedade de sementes de plantas de alguns gêneros da família Fabaceae'),
 		   (4, 'tomate','','O tomate é o fruto do tomateiro (Solanum lycopersicum; Solanaceae). Da sua família, fazem também parte as berinjelas, as pimentas e os pimentões'),
-		   (5, 'alface','','A alface é uma verdura originária do leste do Mediterrâneo, sendo utilizada na alimentação há muito tempo, desde 500 a.C');
+		   (5, 'alface','','A alface é uma verdura originária do leste do Mediterrâneo, sendo utilizada na alimentação há muito tempo, desde 500 a.C'),
 		   (6, 'beterraba','','A beterraba é uma raiz tuberosa típica de climas temperados');
 		
 INSERT INTO Tipos (ID_tipo, nome) 
@@ -162,18 +171,17 @@ ALTER TABLE Cultivos ADD COLUMN FK_usuario INT; --adiciona coluna idCidade para 
 		ADD CONSTRAINT FK_usuario FOREIGN KEY (FK_usuario) REFERENCES Usuarios(ID_usuario);
 
 
--- Query de drop das tabelas
 
-DROP TABLE public.Tempo_Etapa_Plantas;
-DROP TABLE public.Etapas;
-DROP TABLE public.Cronograma_Cuidado_Cultivos;
-DROP TABLE public.Plantas_has_Cuidados;
-DROP TABLE public.Cuidados;
-DROP TABLE public.Cultivos;
-DROP TABLE public.Tipos_has_Plantas;
-DROP TABLE public.Tipos; 
-DROP TABLE public.Plantas; 
-DROP TABLE public.Usuarios;
+SELECT * FROM Usuarios;
+SELECT * FROM Plantas;
+SELECT * FROM Tipos;
+SELECT * FROM Tipos_has_Plantas;
+SELECT * FROM Cultivos;
+SELECT * FROM Cronograma_Cuidado_Cultivos;
+SELECT * FROM Plantas_has_Cuidados; 
+SELECT * FROM Cuidados;
+SELECT * FROM Etapas;
+SELECT * FROM Tempo_Etapa_Plantas;
 
 --Query de visualização de dados
 
@@ -273,6 +281,34 @@ INNER JOIN  Etapas e ON t.FK_etapa = e.ID_etapa;
 SELECT * FROM Plantas 
 WHERE Plantas.ID_planta NOT IN (select FK_tipo_has_plantas from Cultivos); 
 	
-	
 
-	
+
+--**Query de funções de agrupamento, agregação e ordenação de dados** ----
+
+--Seleção do total de registros de determinada tabela
+SELECT COUNT(*) FROM Cultivos;
+
+--Seleção total ocorrências de determinados dados em alguma tabelas agrupados
+SELECT COUNT(data_tempo) FROM Cronograma_Cuidado_Cultivos;
+SELECT COUNT(id_etapa) FROM Etapas WHERE fases_plantio = 'Maturação';
+
+--Seleção retornando soma de determinados valores
+SELECT SUM(id_usuario) FROM Usuarios WHERE email = 'pompom@gmail.com'; 
+SELECT SUM(id_cuidado) FROM Cuidados;
+
+--Seleção retornando media de determinados valores
+SELECT AVG(tempo) FROM Tempo_Etapa_Plantas;
+SELECT AVG(id_cuidado) FROM Cuidados;
+
+--Seleção retornando o valor máximo de determinados valores
+SELECT MAX(tempo) FROM Tempo_Etapa_Plantas;
+SELECT MAX(dias) FROM Plantas_has_Cuidados;
+
+--Seleção de registros em ordem crescente
+SELECT 	nome FROM Usuarios ORDER BY nome ASC; 
+SELECT  dias FROM Plantas_has_Cuidados ORDER BY dias ASC;
+
+--Seleção de em ordem decrescente
+SELECT 	nome FROM Tipos ORDER BY nome DESC; 
+SELECT  dias FROM Plantas_has_Cuidados ORDER BY dias DESC;
+
