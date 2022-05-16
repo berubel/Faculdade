@@ -11,12 +11,14 @@ class Post(models.Model):
     id = models.AutoField(auto_created = True, primary_key = True,serialize = False, verbose_name ='ID')
     name = models.CharField(max_length=255)
     description = models.TextField()
-    phase = models.IntegerField(blank=True, null=True)
-    temperature = models.IntegerField(blank=True, null=True)
+    phase = models.IntegerField(blank=False, null=False)
+    temperature = models.IntegerField(blank=False, null=False)
     waterByDay = models.FloatField()
     #owner = models.ForeignKey(User, on_delete=models.CASCADE)
     info3s = models.CharField(max_length=255)
-    maturationTime = models.IntegerField(blank=True, null=True)
+    maturationTime = models.IntegerField(blank=False, null=False)
+
+    
 
 def __str__(self):
     return self.title

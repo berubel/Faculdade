@@ -16,11 +16,18 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 
-from core.views import lib, myPlantation
+from core.views import  ViewMyPlantation, ViewLib
+from core.views import CreateViewLib, CreateViewMyPlantation 
+from core.views import  myPlantationUpdateDelete, libUpdateDelete
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-     path('api-auth/', include('rest_framework.urls')),
-    path('lib/', lib.as_view(), name='library'),
-    path('', myPlantation.as_view(), name='user-plantation')
+    path('api-auth/', include('rest_framework.urls')),
+    path('', ViewMyPlantation.as_view(), name='user-plantation'),
+    path('lib/', ViewLib.as_view(), name='user-plantation'),
+    path('post-lib/', CreateViewLib.as_view(), name='library'),
+    path('post-myPlantation/', CreateViewMyPlantation.as_view(), name='user-plantation'),
+    path('edit-myPlantation/<int:id>/', myPlantationUpdateDelete, name='edit-myPlantion'),
+    path('edit-myPlantation/<int:id>/', libUpdateDelete, name='edit-lib'),
+    
 ]
