@@ -8,5 +8,5 @@ urlpatterns = [
     path('wallet-create/<int:pk>/', views.wallet_create),
     path('transfer/<int:pk>/', views.transfer),   
     path('receipt-list/', views.receipt_list),
-    path('receipt-detail/<int:pk>/', views.receipt_list)
+    path('receipt-detail/<int:pk>/', views.receipt_detail)
 ]

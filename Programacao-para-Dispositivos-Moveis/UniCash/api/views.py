@@ -50,7 +50,6 @@ def wallet_create(request, pk):
 # Endpoint to update a wallet balance and create a receipt after a transfer
 @api_view(['PUT', 'POST'])
 def transfer(request, pk):
-    serializer_classes = (WalletSerializer, ReceiptSerializer)
 
     transfer_user = request.data.get('transfer_user')
     transfer_value = request.data.get('transfer_value')
@@ -68,20 +67,12 @@ def transfer(request, pk):
         wallet.save()
         transfer_wallet.save()
 
-        wallets = []
-        wallets.append(wallet)
-        wallets.append(transfer_wallet)
-
-        serializer = serializer_classes[0](wallets, many=True)
-
-        Response(serializer.data, status=HTTP_200_OK)
-
         wallet_id = pk
         data = {'transfer_user':transfer_user, 
                 'transfer_value':transfer_value, 
                 'wallet_id':wallet_id}
 
-        serializer = serializer_classes[1](data=data)
+        serializer = ReceiptSerializer(data=data)
 
         if serializer.is_valid():
             serializer.save()
