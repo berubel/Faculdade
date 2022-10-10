@@ -31,7 +31,7 @@ def wallet_list(request):
 # Endpoint to list a specific wallet
 @api_view(['GET'])
 def wallet_detail(request, pk):
-    wallet = Wallet.objects.get(id=pk)
+    wallet = Wallet.objects.get(pk=pk)
     serializer = WalletSerializer(wallet, many=False)
 
     return Response(serializer.data)
@@ -40,10 +40,14 @@ def wallet_detail(request, pk):
 @api_view(['POST'])
 def wallet_create(request, pk):
 
-    serializer = WalletSerializer(data=request.data)
+    user = get_object_or_404(Users, pk=pk)
 
-    if serializer.is_valid():
-        serializer.save()
+    wallet =  Wallet (
+     user_id=user
+    )
+    wallet.save()
+   
+    serializer = WalletSerializer(wallet, many=False)
 
     return Response(serializer.data)
 
@@ -56,8 +60,8 @@ def transfer(request, pk):
 
     user = get_object_or_404(Users, enrollment=transfer_user)
     
-    transfer_wallet = Wallet.objects.get(id=user.id)
-    wallet = Wallet.objects.get(id=pk)
+    transfer_wallet = Wallet.objects.get(pk=user.id)
+    wallet = Wallet.objects.get(pk=pk)
 
     if transfer_value > wallet.balance:
        return Response({'sufficient_funds': False})
@@ -92,7 +96,7 @@ def receipt_list(request):
 # Endpoint to list a specefic receipt
 @api_view(['GET'])
 def receipt_detail(request, pk):
-    receipt = Receipt.objects.get(id=pk)
+    receipt = Receipt.objects.get(pk=pk)
     serializer = ReceiptSerializer(receipt, many=False)
 
     return Response(serializer.data)
