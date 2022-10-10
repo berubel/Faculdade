@@ -31,7 +31,7 @@ def wallet_list(request):
 # Endpoint to list a specific wallet
 @api_view(['GET'])
 def wallet_detail(request, pk):
-    wallet = Wallet.objects.get(pk=pk)
+    wallet = get_object_or_404(Wallet, pk=pk)
     serializer = WalletSerializer(wallet, many=False)
 
     return Response(serializer.data)
@@ -96,7 +96,7 @@ def receipt_list(request):
 # Endpoint to list a specefic receipt
 @api_view(['GET'])
 def receipt_detail(request, pk):
-    receipt = Receipt.objects.get(pk=pk)
+    receipt = get_object_or_404(Receipt, pk=pk)
     serializer = ReceiptSerializer(receipt, many=False)
 
     return Response(serializer.data)
