@@ -1,9 +1,14 @@
 from rest_framework.decorators import api_view
+from rest_framework.views import APIView
 from rest_framework.response import Response
 from api.models import Receipt, Users
-from .serializers import ReceiptSerializer
+from .serializers import ReceiptSerializer, TransferDataSerializer
 from django.shortcuts import get_object_or_404
-from rest_framework.status import HTTP_200_OK, HTTP_400_BAD_REQUEST
+from rest_framework.status import (
+    HTTP_200_OK, 
+    HTTP_400_BAD_REQUEST, 
+    HTTP_201_CREATED
+    )
 
 # Create your views here.
 
@@ -17,52 +22,67 @@ def api_overview(request):
     }
     return Response(api_urls)
 
-# Endpoint to update a wallet balance and create a receipt after a transfer
-# @api_view(['PUT', 'POST'])
-# def transfer(request, pk):
+# Endpoint to send data to perform transfer and create a receipt
+class TransferAPIView(APIView):
+    def post(self, request, pk, format=None):
+        user = get_object_or_404(Users, pk=pk)
+        serializer = TransferDataSerializer(data=request.data)
+      
+        if serializer.is_valid():
+            transfer_value = serializer.validated_data.get('transfer_value')
+            if int(transfer_value) > user.balance:
+                return Response(
+                    {"message": "Saldo insuficiente"},
+                     status=HTTP_400_BAD_REQUEST
+                    )
+            elif int(transfer_value) <= 0:
+                return Response(
+                    {"message": "Digite um valor válido."}, 
+                    status=HTTP_400_BAD_REQUEST
+                    )
+            else:      
+                enrollment = serializer.validated_data.get('transfer_user')
+                try: 
+                    transfer_user = Users.objects.get(enrollment=enrollment)
+                except:
+                    return Response(
+                        {"message": "Código de matrícula inválido"}, 
+                        status=HTTP_400_BAD_REQUEST
+                        )
 
-#     transfer_user = request.data.get('transfer_user')
-#     transfer_value = request.data.get('transfer_value')
+                receipt = Receipt (
+                    transfer_value = transfer_value,
+                    user = user.enrollment,
+                    name = user.name,
+                    course = user.course,
 
-#     user = get_object_or_404(Users, enrollment=transfer_user)
-    
-#     transfer_wallet = Wallet.objects.get(pk=user.id)
-#     wallet = Wallet.objects.get(pk=pk)
+                    transfer_user = enrollment,  
+                    transfer_name = transfer_user.name,
+                    transfer_course = transfer_user.course
+                )
+                receipt.save()
 
-#     if transfer_value > wallet.balance:
-#        return Response({'sufficient_funds': False})
-#     else:
-#         wallet.balance = wallet.balance - transfer_value
-#         transfer_wallet.balance = transfer_wallet.balance + transfer_value
-#         wallet.save()
-#         transfer_wallet.save()
-
-#         wallet_id = pk
-#         data = {'transfer_user':transfer_user, 
-#                 'transfer_value':transfer_value, 
-#                 'wallet_id':wallet_id}
-
-#         serializer = ReceiptSerializer(data=data)
-
-#         if serializer.is_valid():
-#             serializer.save()
-#             transfer_value=0
-#             return Response(data=serializer.data, status=HTTP_200_OK)
-
-#         return Response(data=serializer.errors, status=HTTP_400_BAD_REQUEST)
+                return Response(serializer.data, status=HTTP_201_CREATED)
+        return Response(
+            {
+                "message": "Há erros de validação", 
+                "errors": serializer.errors
+            }, 
+            status=HTTP_400_BAD_REQUEST
+            )
             
 # Endpoint to list all receipts
-# @api_view(['GET'])
-# def receipt_list(request):
-#     receipt = Receipt.objects.all()
-#     serializer = ReceiptSerializer(receipt, many=True)
+@api_view(['GET'])
+def receipt_list(request):
+    receipt = Receipt.objects.all()
+    serializer = ReceiptSerializer(receipt, many=True)
 
-#     return Response(serializer.data)
+    return Response(serializer.data)
 
-# # Endpoint to list a specefic receipt
-# @api_view(['GET'])
-# def receipt_detail(request, pk):
-#     receipt = get_object_or_404(Receipt, pk=pk)
-#     serializer = ReceiptSerializer(receipt, many=False)
+# Endpoint to list a specefic receipt
+@api_view(['GET'])
+def receipt_detail(request, pk):
+    receipt = get_object_or_404(Receipt, pk=pk)
+    serializer = ReceiptSerializer(receipt, many=False)
 
-#     return Response(serializer.data)
+    return Response(serializer.data)
