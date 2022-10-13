@@ -11,7 +11,3 @@ class UsersSerializer(serializers.ModelSerializer):
         model = models.Users
         fields = '__all__'
 
-class WalletSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = models.Wallet
-        fields = '__all__'
