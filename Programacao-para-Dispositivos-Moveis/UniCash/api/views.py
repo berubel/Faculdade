@@ -11,43 +11,11 @@ from rest_framework.status import HTTP_200_OK, HTTP_400_BAD_REQUEST
 @api_view(['GET'])
 def api_overview(request):
     api_urls = {
-        'Wallet-List':'/wallet-list/',
-        'Wallet-Detail':'/wallet-detail/<int:pk>/',
-        'Wallet-Create':'/wallet-create/',
         'Transfer': '/transfer/<int:pk>/',
         'Receipt-list':'/receipt-list/',
         'Receipt-detail':'/receipt-detail/',
     }
     return Response(api_urls)
-
-# # Endpoint to list all wallets
-# @api_view(['GET'])
-# def wallet_list(request):
-#     wallet = Wallet.objects.all()
-#     serializer = WalletSerializer(wallet, many=True)
-
-#     return Response(serializer.data)
-
-# # Endpoint to list a specific wallet
-# @api_view(['GET'])
-# def wallet_detail(request, pk):
-#     wallet = get_object_or_404(Wallet, pk=pk)
-#     serializer = WalletSerializer(wallet, many=False)
-
-#     return Response(serializer.data)
-
-# # Endpoint to create a wallet for a user
-# @api_view(['POST'])
-# def wallet_create(request, pk):
-#     user = get_object_or_404(Users, pk=pk)
-
-#     wallet =  Wallet (
-#      user_id=user
-#     )
-#     wallet.save() 
-#     serializer = WalletSerializer(wallet, many=False)
-
-#     return Response(serializer.data)
 
 # Endpoint to update a wallet balance and create a receipt after a transfer
 # @api_view(['PUT', 'POST'])
@@ -83,7 +51,7 @@ def api_overview(request):
 
 #         return Response(data=serializer.errors, status=HTTP_400_BAD_REQUEST)
             
-# # Endpoint to list all receipts
+# Endpoint to list all receipts
 # @api_view(['GET'])
 # def receipt_list(request):
 #     receipt = Receipt.objects.all()
