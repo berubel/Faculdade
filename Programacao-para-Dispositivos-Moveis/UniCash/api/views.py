@@ -7,7 +7,8 @@ from django.shortcuts import get_object_or_404
 from rest_framework.status import (
     HTTP_200_OK, 
     HTTP_400_BAD_REQUEST, 
-    HTTP_201_CREATED
+    HTTP_404_NOT_FOUND,
+    HTTP_201_CREATED,
     )
 
 # Create your views here.
@@ -71,18 +72,28 @@ class TransferAPIView(APIView):
             status=HTTP_400_BAD_REQUEST
             )
             
-# Endpoint to list all receipts
+# Endpoint to list all receipts for a user
 @api_view(['GET'])
-def receipt_list(request):
-    receipt = Receipt.objects.all()
+def receipt_list(request, user_id):
+    user = get_object_or_404(Users, pk=user_id)
+    receipt = Receipt.objects.filter(user=user.enrollment)
     serializer = ReceiptSerializer(receipt, many=True)
 
     return Response(serializer.data)
 
-# Endpoint to list a specefic receipt
+# Endpoint to list a specefic receipt for a user
 @api_view(['GET'])
-def receipt_detail(request, pk):
-    receipt = get_object_or_404(Receipt, pk=pk)
-    serializer = ReceiptSerializer(receipt, many=False)
-
-    return Response(serializer.data)
+def receipt_detail(request, user_id, pk):
+    user = get_object_or_404(Users, pk=user_id)
+    try:
+        user_receipts = Receipt.objects.filter(user=user.enrollment)
+        for i in user_receipts:
+            if pk == i.id:
+                receipt = Receipt.objects.get(pk=pk)
+        serializer = ReceiptSerializer(receipt, many=False)
+        return Response(serializer.data)
+    except:
+        return Response(
+            { 'message': 'Comprovante não encontrado.'}, 
+            status=HTTP_404_NOT_FOUND
+            )
