@@ -18,8 +18,8 @@ from rest_framework.status import (
 def api_overview(request):
     api_urls = {
         'Transfer': '/transfer/<int:pk>/',
-        'Receipt-list':'/receipt-list/',
-        'Receipt-detail':'/receipt-detail/',
+        'Receipt-list':'/receipt-list/<int:user_id>/',
+        'Receipt-detail':'/receipt-detail/<int:user_id>/<int:pk>/',
     }
     return Response(api_urls)
 
