@@ -6,10 +6,11 @@ class ReceiptSerializer(serializers.ModelSerializer):
         model = models.Receipt
         fields = '__all__'
 
-class UsersSerializer(serializers.ModelSerializer):
+class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.User
         fields = (
+            'id',
             'username',
             'enrollment',
             'name',

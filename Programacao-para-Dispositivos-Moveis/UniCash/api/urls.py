@@ -9,7 +9,10 @@ urlpatterns = [
     path('', views.api_overview),
     path('token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('refresh-token/', TokenRefreshView.as_view(), name='token_refresh'),
+    path('user/', views.UserApiView.as_view()),
     path('transfer/<int:pk>/', views.TransferAPIView.as_view()),   
-    path('receipt-list/<int:user_id>/', views.receipt_list),
-    path('receipt-detail/<int:user_id>/<int:pk>/', views.receipt_detail)
+    path('made-transfer-receipts/<int:user_id>/', views.made_transfer_receipts),
+    path('made-transfer-receipt-detail/<int:user_id>/<int:pk>/', views.made_transfer_receipt_detail),
+    path('incoming-transfer-receipts/<int:user_id>/', views.incoming_transfer_receipts),
+    path('incoming-transfer-receipt-detail/<int:user_id>/<int:pk>/', views.incoming_transfer_receipt_detail)
 ]

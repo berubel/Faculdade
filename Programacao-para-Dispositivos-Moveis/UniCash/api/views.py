@@ -1,9 +1,11 @@
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework.decorators import api_view
+from django.utils.decorators import method_decorator
+from django.views.decorators.csrf import csrf_exempt
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from api.models import Receipt, User
-from .serializers import ReceiptSerializer, TransferDataSerializer
+from .serializers import ReceiptSerializer, TransferDataSerializer, UserSerializer
 from django.shortcuts import get_object_or_404
 from rest_framework.status import (
     HTTP_200_OK, 
@@ -19,10 +21,15 @@ from rest_framework.status import (
 def api_overview(request):
     api_urls = {
         'Transfer': '/transfer/<int:pk>/',
-        'Receipt-list':'/receipt-list/<int:user_id>/',
-        'Receipt-detail':'/receipt-detail/<int:user_id>/<int:pk>/',
+        'Made-transfers':'/made_transfers_receipts/<int:user_id>/',
+        'Made-transfer-detail':'/receipt-detail/<int:user_id>/<int:pk>/',
+        'Incoming-transfers':'/made-transfer-receipts/<int:user_id>/',
+        'Incoming-transfer-detail':'/receipt-detail/<int:user_id>/<int:pk>/',
+        'User-view':'/user/',
     }
     return Response(api_urls)
+
+# -------------------- TRANSFER ---------------------------------
 
 # Endpoint to send data to perform transfer and create a receipt
 class TransferAPIView(APIView):
@@ -73,20 +80,53 @@ class TransferAPIView(APIView):
             }, 
             status=HTTP_400_BAD_REQUEST
             )
-            
-# Endpoint to list all receipts for a user
+
+# ------------------ INCOMING RECEIPTS -------------------------
+
+# Endpoint to list all incoming receipts for a user
 @api_view(['GET'])
-def receipt_list(request, user_id):
+def incoming_transfer_receipts(request, user_id):
+    permission_classes = (IsAuthenticated,)
+    user = get_object_or_404(User, pk=user_id)
+    receipt = Receipt.objects.filter(transfer_user=user.enrollment)
+    serializer = ReceiptSerializer(receipt, many=True)
+
+    return Response(serializer.data, status=HTTP_200_OK)
+
+# Endpoint to list a specefic incoming receipt for a user  
+@api_view(['GET'])
+def incoming_transfer_receipt_detail(request, user_id, pk):
+    permission_classes = (IsAuthenticated,)
+    user = get_object_or_404(User, pk=user_id)
+    try:
+        user_receipts = Receipt.objects.filter(transfer_user=user.enrollment)
+        for i in user_receipts:
+            if pk == i.id:
+                receipt = Receipt.objects.get(pk=pk)
+        serializer = ReceiptSerializer(receipt, many=False)
+        return Response(serializer.data, status=HTTP_200_OK)
+    except:
+        return Response(
+            { 'message': 'Comprovante não encontrado.'}, 
+            status=HTTP_404_NOT_FOUND
+            )
+
+
+# ------------------ MADE RECEIPTS -------------------------
+
+# Endpoint to list all made receipts for a user
+@api_view(['GET'])
+def made_transfer_receipts(request, user_id):
     permission_classes = (IsAuthenticated,)
     user = get_object_or_404(User, pk=user_id)
     receipt = Receipt.objects.filter(user=user.enrollment)
     serializer = ReceiptSerializer(receipt, many=True)
 
     return Response(serializer.data, status=HTTP_200_OK)
-
-# Endpoint to list a specefic receipt for a user
+    
+# Endpoint to list a specefic made receipt for a user
 @api_view(['GET'])
-def receipt_detail(request, user_id, pk):
+def made_transfer_receipt_detail(request, user_id, pk):
     permission_classes = (IsAuthenticated,)
     user = get_object_or_404(User, pk=user_id)
     try:
@@ -101,3 +141,27 @@ def receipt_detail(request, user_id, pk):
             { 'message': 'Comprovante não encontrado.'}, 
             status=HTTP_404_NOT_FOUND
             )
+
+# ----------------- USER ------------------------
+class UserApiView(APIView):
+    permission_classes = (AllowAny,)
+    @method_decorator(csrf_exempt)
+    def post(self, request, format=None):
+        data = request.data.get
+        user = User(
+            username=data('username'), 
+            enrollment=data('enrollment'), 
+            name=data('name'), 
+            course=data('course'), 
+            balance=data('balance')
+            )
+        user.set_password(data('password'))
+        user.save()
+        
+        serializer = UserSerializer(user, many=False)
+        return Response(serializer.data, status=HTTP_201_CREATED)
+   
+    def get(self, request, format=None):
+        users = User.objects.all()
+        serializer = UserSerializer(users, many=True)
+        return Response(serializer.data, status=HTTP_200_OK)
