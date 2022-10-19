@@ -1,7 +1,8 @@
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.decorators import api_view
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from api.models import Receipt, Users
+from api.models import Receipt, User
 from .serializers import ReceiptSerializer, TransferDataSerializer
 from django.shortcuts import get_object_or_404
 from rest_framework.status import (
@@ -25,8 +26,9 @@ def api_overview(request):
 
 # Endpoint to send data to perform transfer and create a receipt
 class TransferAPIView(APIView):
+    permission_classes = (IsAuthenticated,)
     def post(self, request, pk, format=None):
-        user = get_object_or_404(Users, pk=pk)
+        user = get_object_or_404(User, pk=pk)
         serializer = TransferDataSerializer(data=request.data)
       
         if serializer.is_valid():
@@ -44,7 +46,7 @@ class TransferAPIView(APIView):
             else:      
                 enrollment = serializer.validated_data.get('transfer_user')
                 try: 
-                    transfer_user = Users.objects.get(enrollment=enrollment)
+                    transfer_user = User.objects.get(enrollment=enrollment)
                 except:
                     return Response(
                         {"message": "Código de matrícula inválido"}, 
@@ -75,23 +77,25 @@ class TransferAPIView(APIView):
 # Endpoint to list all receipts for a user
 @api_view(['GET'])
 def receipt_list(request, user_id):
-    user = get_object_or_404(Users, pk=user_id)
+    permission_classes = (IsAuthenticated,)
+    user = get_object_or_404(User, pk=user_id)
     receipt = Receipt.objects.filter(user=user.enrollment)
     serializer = ReceiptSerializer(receipt, many=True)
 
-    return Response(serializer.data)
+    return Response(serializer.data, status=HTTP_200_OK)
 
 # Endpoint to list a specefic receipt for a user
 @api_view(['GET'])
 def receipt_detail(request, user_id, pk):
-    user = get_object_or_404(Users, pk=user_id)
+    permission_classes = (IsAuthenticated,)
+    user = get_object_or_404(User, pk=user_id)
     try:
         user_receipts = Receipt.objects.filter(user=user.enrollment)
         for i in user_receipts:
             if pk == i.id:
                 receipt = Receipt.objects.get(pk=pk)
         serializer = ReceiptSerializer(receipt, many=False)
-        return Response(serializer.data)
+        return Response(serializer.data, status=HTTP_200_OK)
     except:
         return Response(
             { 'message': 'Comprovante não encontrado.'}, 

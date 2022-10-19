@@ -1,5 +1,4 @@
 from . import models
-from django.forms import ValidationError
 from rest_framework import serializers
 
 class ReceiptSerializer(serializers.ModelSerializer):
@@ -9,8 +8,16 @@ class ReceiptSerializer(serializers.ModelSerializer):
 
 class UsersSerializer(serializers.ModelSerializer):
     class Meta:
-        model = models.Users
-        fields = '__all__'
+        model = models.User
+        fields = (
+            'username',
+            'enrollment',
+            'name',
+            'course',
+            'image',
+            'balance',
+        )
+        extra_kwargs = {'password': {'write_only': True}}
 
 class TransferDataSerializer(serializers.Serializer):
     transfer_user =  serializers.IntegerField()
