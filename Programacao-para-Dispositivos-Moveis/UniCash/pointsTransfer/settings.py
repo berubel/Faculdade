@@ -81,11 +81,11 @@ WSGI_APPLICATION = 'pointsTransfer.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'pointsTransfer',
+        'NAME': 'postgres',
         'USER': 'postgres',
-        'PASSWORD': '22022002',
-        'HOST': '127.0.0.1',
-        'PORT': '5433',
+        'PASSWORD': 'postgres',
+        'HOST': 'db',
+        'PORT': 5432,
     }
 }
 
