@@ -6,4 +6,4 @@ Repositório para códigos e projetos desenvolvidos para as disciplinas do curso
 
 * Matrícula: 2010840
 
-* 6º Período - UniEVANGÉLICA
+* 7º Período - UniEVANGÉLICA
